@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PanguTextHelper">
+        <!-- Enable [PanguText] for this view. -->
+        <attr name="panguText_enabled" format="boolean" />
+        <!-- Processed [Spanned] text (experimental). -->
+        <attr name="panguText_processedSpanned" format="boolean" />
+        <!-- The regular expression for text content that needs to be excluded. -->
+        <attr name="panguText_excludePatterns" format="string" />
+        <!-- The CJK spacing ratio. -->
+        <attr name="panguText_cjkSpacingRatio" format="float" />
+    </declare-styleable>
+</resources>
