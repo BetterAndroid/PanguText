@@ -75,7 +75,7 @@ fun TextView.injectPanguText(injectHint: Boolean = true, config: PanguTextConfig
 @JvmOverloads
 fun TextView.injectRealTimePanguText(injectHint: Boolean = true, config: PanguTextConfig = PanguText.globalConfig) {
     if (!config.isEnabled) return
-    val observerKey = R.id.flag_inject_real_time_pangu_text
+    val observerKey = R.id.tag_inject_real_time_pangu_text
     if (getTag<Boolean>(observerKey) == true) return run {
         Log.w(PangutextAndroidProperties.PROJECT_NAME, "Duplicate injection of real-time PanguText ($this).")
     }
