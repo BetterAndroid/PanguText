@@ -22,6 +22,7 @@
 package com.highcapable.pangutext.android
 
 import android.text.Spanned
+import android.widget.TextView
 import java.io.Serializable
 
 /**
@@ -52,6 +53,18 @@ class PanguTextConfig internal constructor() : Serializable {
      *   if the text is not processed correctly, please disable this feature.
      */
     var isProcessedSpanned = true
+
+    /**
+     * Whether to automatically re-measure the text width after processing.
+     *
+     * - Note: [PanguText] after injecting text and changing the text,
+     *   the width of [TextView] will not be calculated automatically.
+     *   At this time, this feature will call [TextView.setText] to re-execute the measurements,
+     *   which can fix every time in some dynamic layouts (such as `RecyclerView`) changes in text width,
+     *   but may cause performance issues, you can choose to disable this feature.
+     *   To prevent unnecessary performance overhead, this feature only takes effect on [TextView] with `maxLines` set to 1 or `singleLine`.
+     */
+    var isAutoRemeasureText = true
 
     /**
      * The regular expression for text content that needs to be excluded.
@@ -87,6 +100,7 @@ class PanguTextConfig internal constructor() : Serializable {
     fun copy(body: PanguTextConfig.() -> Unit = {}) = PanguTextConfig().also {
         it.isEnabled = this.isEnabled
         it.isProcessedSpanned = this.isProcessedSpanned
+        it.isAutoRemeasureText = this.isAutoRemeasureText
         it.excludePatterns.addAll(this.excludePatterns)
         it.cjkSpacingRatio = this.cjkSpacingRatio
         it.body()

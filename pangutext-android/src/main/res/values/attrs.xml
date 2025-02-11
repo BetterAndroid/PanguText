@@ -5,6 +5,8 @@
         <attr name="panguText_enabled" format="boolean" />
         <!-- Processed [Spanned] text (experimental). -->
         <attr name="panguText_processedSpanned" format="boolean" />
+        <!-- Whether to automatically re-measure the text width after processing. -->
+        <attr name="panguText_autoRemeasureText" format="boolean" />
         <!-- The regular expression for text content that needs to be excluded. -->
         <attr name="panguText_excludePatterns" format="string" />
         <!-- The CJK spacing ratio. -->

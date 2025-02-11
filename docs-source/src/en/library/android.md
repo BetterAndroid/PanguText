@@ -272,6 +272,15 @@ config.isEnabled = true
 // Processing Spanned text is enabled by default, but this feature is experimental.
 // If issues occur, you can disable it. When disabled, Spanned text will return the original text.
 config.isProcessedSpanned = true
+// Whether to automatically re-measure the text width after processing.
+// Note: [PanguText] after injecting text and changing the text,
+// the width of [TextView] will not be calculated automatically.
+// At this time, this feature will call [TextView.setText] to re-execute the measurements,
+// which can fix every time in some dynamic layouts (such as `RecyclerView`) changes in text width,
+// but may cause performance issues, you can choose to disable this feature.
+// To prevent unnecessary performance overhead,
+// this feature only takes effect on [TextView] with `maxLines` set to 1 or `singleLine`.
+config.isAutoRemeasureText = true
 // Set patterns to exclude during formatting using regular expressions.
 // For example, exclude all URLs.
 config.excludePatterns.add("https?://\\S+".toRegex())
@@ -319,6 +328,7 @@ If you integrated using the [Inject to LayoutInflater](#inject-to-layoutinflater
 
 - `panguText_enabled` corresponds to `PanguTextConfig.isEnabled`
 - `panguText_processedSpanned` corresponds to `PanguTextConfig.isProcessedSpanned`
+- `panguText_autoRemeasureText` corresponds to `PanguTextConfig.isAutoRemeasureText`
 - `panguText_excludePatterns` corresponds to `PanguTextConfig.excludePatterns`, string array, multiple patterns separated by `|@|`
 - `panguText_cjkSpacingRatio` corresponds to `PanguTextConfig.cjkSpacingRatio`
 
@@ -332,6 +342,7 @@ If you integrated using the [Inject to LayoutInflater](#inject-to-layoutinflater
     android:text="Xiaoming今年16岁"
     app:panguText_enabled="true"
     app:panguText_processedSpanned="true"
+    app:panguText_autoRemeasureText="true"
     app:panguText_excludePatterns="https?://\\S+;\\[.*?]|@|\\[.*?]"
     app:panguText_cjkSpacingRatio="7.0" />
 ```

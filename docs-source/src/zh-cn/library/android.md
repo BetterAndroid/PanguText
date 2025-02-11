@@ -271,6 +271,13 @@ config.isEnabled = true
 // Spanned 文本处理默认启用，但此功能尚处于实验性阶段，
 // 如果发生问题你可以选择禁用，禁用后遇到 Spanned 文本将返回原始文本
 config.isProcessedSpanned = true
+// 是否要在处理后自动重新测量文本宽度
+// 注意：[PanguText] 注入文本并更改文本后，[TextView] 的宽度将不会自动计算
+// 目前，此功能将调用 [TextView.setText] 重新执行测量结果，
+// 该测量可以在某些动态布局 (例如 `RecyclerView`) 中每次修复文本宽度，
+// 但可能会导致性能问题，你可以选择禁用此功能
+// 为了防止不必要的性能开销，此功能仅在 `maxlines` 设置为 1 或 `singleLine` 的 [TextView] 上生效
+config.isAutoRemeasureText = true
 // 设置在格式化过程中以正则形式定义需要排除的内容
 // 例如排除全部 URL
 config.excludePatterns.add("https?://\\S+".toRegex())
@@ -317,6 +324,7 @@ textView.injectPanguText(config = config2)
 
 - `panguText_enabled` 对应 `PanguTextConfig.isEnabled`
 - `panguText_processedSpanned` 对应 `PanguTextConfig.isProcessedSpanned`
+- `panguText_autoRemeasureText` 对应 `PanguTextConfig.isAutoRemeasureText`
 - `panguText_excludePatterns` 对应 `PanguTextConfig.excludePatterns`，字符串数组，多个使用 `|@|` 分隔
 - `panguText_cjkSpacingRatio` 对应 `PanguTextConfig.cjkSpacingRatio`
 
@@ -330,6 +338,7 @@ textView.injectPanguText(config = config2)
     android:text="Xiaoming今年16岁"
     app:panguText_enabled="true"
     app:panguText_processedSpanned="true"
+    app:panguText_autoRemeasureText="true"
     app:panguText_excludePatterns="https?://\\S+;\\[.*?]|@|\\[.*?]"
     app:panguText_cjkSpacingRatio="7.0" />
 ```

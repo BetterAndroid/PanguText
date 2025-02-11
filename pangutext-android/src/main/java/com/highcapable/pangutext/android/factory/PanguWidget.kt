@@ -87,6 +87,7 @@ internal object PanguWidget {
         } else instance.obtainStyledAttributes(attrs, R.styleable.PanguTextHelper) {
             val isEnabled = it.getBooleanOrNull(R.styleable.PanguTextHelper_panguText_enabled)
             val isProcessedSpanned = it.getBooleanOrNull(R.styleable.PanguTextHelper_panguText_processedSpanned)
+            val isAutoRemeasureText = it.getBooleanOrNull(R.styleable.PanguTextHelper_panguText_autoRemeasureText)
             val cjkSpacingRatio = it.getFloatOrNull(R.styleable.PanguTextHelper_panguText_cjkSpacingRatio)
             val excludePatterns = it.getStringOrNull(R.styleable.PanguTextHelper_panguText_excludePatterns)
                 ?.split(TEXT_REGEX_SPLITE_SYMBOL)?.mapNotNull { regex -> 
@@ -95,9 +96,10 @@ internal object PanguWidget {
                     }.getOrNull()
                 }?.toTypedArray() ?: emptyArray()
             if (isEnabled == false) return instance
-            if (isProcessedSpanned != null || cjkSpacingRatio != null || excludePatterns.isNotEmpty()) {
+            if (isProcessedSpanned != null || isAutoRemeasureText != null || cjkSpacingRatio != null || excludePatterns.isNotEmpty()) {
                 val configCopy = config.copy()
                 configCopy.isProcessedSpanned = isProcessedSpanned ?: config.isProcessedSpanned
+                configCopy.isAutoRemeasureText = isAutoRemeasureText ?: config.isAutoRemeasureText
                 configCopy.cjkSpacingRatio = cjkSpacingRatio ?: config.cjkSpacingRatio
                 if (excludePatterns.isNotEmpty()) {
                     config.excludePatterns.clear()
