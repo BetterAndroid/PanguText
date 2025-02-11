@@ -10,7 +10,12 @@
 
 ## pangutext-android
 
-### 1.0.0 | 2025.02.10 &ensp;<Badge type="tip" text="最新" vertical="middle" />
+### 1.0.1 | 2025.02.11 &ensp;<Badge type="tip" text="最新" vertical="middle" />
+
+- 修复注入 `PanguText` 后 `TextView` 可能导致测量宽度不正确的问题
+- `PanguTextConfig` 新增 `isAutoRemeasureText`，用于控制是否自动重新测量文本宽度 (作用于 `TextView` 单行文本)
+
+### 1.0.0 | 2025.02.10 &ensp;<Badge type="warning" text="过旧" vertical="middle" />
 
 - 首个版本提交至 Maven
 

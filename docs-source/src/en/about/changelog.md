@@ -18,7 +18,12 @@ Time zone of version release date: **UTC+8**
 
 ## pangutext-android
 
-### 1.0.0 | 2025.02.10 &ensp;<Badge type="tip" text="latest" vertical="middle" />
+### 1.0.1 | 2025.02.11 &ensp;<Badge type="tip" text="latest" vertical="middle" />
+
+- Fixed an issue where injecting `PanguText` could cause incorrect width measurement in `TextView`
+- Added `isAutoRemeasureText` to `PanguTextConfig` to control whether to automatically remeasure text width (applies to single-line text in `TextView`)
+
+### 1.0.0 | 2025.02.10 &ensp;<Badge type="warning" text="stale" vertical="middle" />
 
 - The first version is submitted to Maven
 
