@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-78411699","path":"/zh-cn/library/compose.html","title":"Jetpack Compose","lang":"zh-CN","frontmatter":{},"headers":[],"git":{"updatedTime":1739127925000,"contributors":[{"name":"fankesyooni","email":"qzmmcn@163.com","commits":1}]},"filePathRelative":"zh-cn/library/compose.md"}');export{e as data};
