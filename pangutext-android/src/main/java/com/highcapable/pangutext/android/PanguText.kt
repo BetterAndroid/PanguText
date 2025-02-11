@@ -35,6 +35,7 @@ import com.highcapable.pangutext.android.core.PanguMarginSpan
 import com.highcapable.pangutext.android.core.PanguPatterns
 import com.highcapable.pangutext.android.extension.injectPanguText
 import com.highcapable.pangutext.android.extension.injectRealTimePanguText
+import com.highcapable.pangutext.android.extension.setHintWithPangu
 import com.highcapable.pangutext.android.extension.setTextWithPangu
 import com.highcapable.yukireflection.factory.classOf
 
@@ -75,6 +76,7 @@ object PanguText {
      * @see TextView.injectPanguText
      * @see TextView.injectRealTimePanguText
      * @see TextView.setTextWithPangu
+     * @see TextView.setHintWithPangu
      * @param resources the current resources.
      * @param textSize the text size (px).
      * @param text text to be formatted.
