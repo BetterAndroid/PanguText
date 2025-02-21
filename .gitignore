@@ -43,6 +43,9 @@
 *.iml
 *.ipr
 
+# Kotlin
+.kotlin
+
 # Misc
 .idea/misc.xml
 
