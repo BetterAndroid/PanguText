@@ -65,16 +65,23 @@ internal object PanguWidget {
         val instance = view ?: name.let {
             // There will be commonly used view class names in the XML layout, which is converted here.
             if (!it.contains(".")) "android.widget.$it" else it
-        }.toClassOrNull()?.let {
+        }.toClassOrNull()?.let { viewClass ->
             // Avoid creating unnecessary components for waste.
-            if (it notExtends classOf<TextView>()) return null
-            val twoParams = it.constructor {
+            if (viewClass notExtends classOf<TextView>()) return null
+            val twoParams = viewClass.constructor {
                 param(ContextClass, AttributeSetClass)
             }.ignored().get()
-            val onceParam = it.constructor {
+            val onceParam = viewClass.constructor {
                 param(ContextClass)
             }.ignored().get()
-            twoParams.newInstance<View>(context, attrs) ?: onceParam.newInstance<View>(context)
+            // Catching when the attrs value initialization failed.
+            runCatching { twoParams.newInstance<View>(context, attrs) }.onFailure {
+                Log.w(PangutextAndroidProperties.PROJECT_NAME, "Failed to create instance of $viewClass using (Context, AttributeSet).", it)
+            }.getOrNull()
+                // Try to initialize with the default constructor again, otherwise return null.
+                ?: runCatching { onceParam.newInstance<View>(context) }.onFailure { 
+                    Log.w(PangutextAndroidProperties.PROJECT_NAME, "Failed to create instance of $viewClass, this process will be ignored.", it)
+                }.getOrNull()
         }
         // Ignore if the instance is not a [TextView].
         if (instance !is TextView) return null
