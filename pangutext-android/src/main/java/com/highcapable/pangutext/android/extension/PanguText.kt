@@ -76,10 +76,15 @@ fun TextView.injectPanguText(injectHint: Boolean = true, config: PanguTextConfig
 fun TextView.injectRealTimePanguText(injectHint: Boolean = true, config: PanguTextConfig = PanguText.globalConfig) {
     if (!config.isEnabled) return
     val observerKey = R.id.tag_inject_real_time_pangu_text
-    if (getTag<Boolean>(observerKey) == true) return run {
-        Log.w(PangutextAndroidProperties.PROJECT_NAME, "Duplicate injection of real-time PanguText ($this).")
-    }
-    setTag(observerKey, injectHint)
+    var lastSetTimes = getTag<Int>(observerKey) ?: 0
+    setTag(observerKey, ++lastSetTimes)
+    // Only print warning log once after one time.
+    if (lastSetTimes == 2) Log.w(
+        PangutextAndroidProperties.PROJECT_NAME,
+        "Duplicate injection of real-time PanguText ($this), subsequent operations will be ignored."
+    )
+    // It will no longer be executed if it exceeds one time.
+    if (lastSetTimes > 1) return
     injectPanguText(injectHint, config)
     var currentHint = this.hint
     val textWatcher = PanguTextWatcher(base = this, config)
@@ -97,7 +102,7 @@ fun TextView.injectRealTimePanguText(injectHint: Boolean = true, config: PanguTe
             removeTextChangedListener(textWatcher)
             // Remove the global layout listener when the view is detached.
             if (injectHint) viewTreeObserver?.removeOnGlobalLayoutListener(listener)
-            setTag(observerKey, false)
+            setTag(observerKey, 0)
         }
     }
 }
