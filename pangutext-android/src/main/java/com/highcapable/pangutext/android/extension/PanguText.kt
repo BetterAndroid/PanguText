@@ -24,7 +24,6 @@
 
 package com.highcapable.pangutext.android.extension
 
-import android.util.Log
 import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.core.view.doOnAttach
@@ -34,7 +33,6 @@ import com.highcapable.pangutext.android.PanguText
 import com.highcapable.pangutext.android.PanguTextConfig
 import com.highcapable.pangutext.android.R
 import com.highcapable.pangutext.android.core.PanguTextWatcher
-import com.highcapable.pangutext.android.generated.PangutextAndroidProperties
 
 /**
  * Create a new instance of [PanguTextConfig].
@@ -65,6 +63,8 @@ fun TextView.injectPanguText(injectHint: Boolean = true, config: PanguTextConfig
 
 /**
  * Inject [PanguText] to the current text content in real time.
+ *
+ * - Note: Repeated inject will be ignored unless the current [TextView] is detached.
  * @see TextView.setTextWithPangu
  * @see TextView.setHintWithPangu
  * @see PanguText.format
@@ -76,15 +76,9 @@ fun TextView.injectPanguText(injectHint: Boolean = true, config: PanguTextConfig
 fun TextView.injectRealTimePanguText(injectHint: Boolean = true, config: PanguTextConfig = PanguText.globalConfig) {
     if (!config.isEnabled) return
     val observerKey = R.id.tag_inject_real_time_pangu_text
-    var lastSetTimes = getTag<Int>(observerKey) ?: 0
-    setTag(observerKey, ++lastSetTimes)
-    // Only print warning log once after one time.
-    if (lastSetTimes == 2) Log.w(
-        PangutextAndroidProperties.PROJECT_NAME,
-        "Duplicate injection of real-time PanguText ($this), subsequent operations will be ignored."
-    )
+    val isRepeated = getTag<Boolean>(observerKey) == true
     // It will no longer be executed if it exceeds one time.
-    if (lastSetTimes > 1) return
+    if (isRepeated) return
     injectPanguText(injectHint, config)
     var currentHint = this.hint
     val textWatcher = PanguTextWatcher(base = this, config)
@@ -94,6 +88,7 @@ fun TextView.injectRealTimePanguText(injectHint: Boolean = true, config: PanguTe
             self.setHintWithPangu(self.hint, config)
         currentHint = self.hint
     }
+    setTag(observerKey, true)
     doOnAttach {
         addTextChangedListener(textWatcher)
         // Add a global layout listener to monitor the hint text changes.
@@ -102,7 +97,7 @@ fun TextView.injectRealTimePanguText(injectHint: Boolean = true, config: PanguTe
             removeTextChangedListener(textWatcher)
             // Remove the global layout listener when the view is detached.
             if (injectHint) viewTreeObserver?.removeOnGlobalLayoutListener(listener)
-            setTag(observerKey, 0)
+            setTag(observerKey, false)
         }
     }
 }
