@@ -150,6 +150,39 @@ However, please inject before the `LayoutInflater` instance is used to load the 
 
 :::
 
+#### Using the Patching Tool
+
+You can use `PanguTextPatcher` to patch existing `View` or `ViewGroup` instances.
+
+Patch the entire root layout, and `PanguTextPatcher` will automatically patch all `TextView` or its subclasses under the root layout.
+
+> The following example
+
+```kotlin
+// Assume you have a root layout.
+val root: ViewGroup
+// Patch the root layout.
+PanguTextPatcher.patch(root)
+```
+
+Patch a single `View`, which is of type `TextView` or a subclass of `TextView`.
+
+> The following example
+
+```kotlin
+// Assume this is your TextView.
+val textView: TextView
+// Patch a single View.
+PanguTextPatcher.patch(textView)
+```
+
+::: warning
+
+When using `PanguTextPatcher` in recycled layouts such as `RecyclerView`, `ListView`, or `ViewPager`, you need to patch the `itemView` in `onCreateViewHolder` or `onBindViewHolder`,
+otherwise it will not take effect.
+
+:::
+
 #### Manual Injection or Text Formatting
 
 `PanguText` also supports manual injection, allowing you to inject it into the desired `TextView` or `EditText`.
@@ -356,6 +389,7 @@ Don't forget to add the declaration `xmlns:app="http://schemas.android.com/apk/r
 :::
 
 In custom `View`, you can extend your `View` to implement the `PanguTextView` interface to achieve the same functionality.
+This feature is also effective for the [Using the Patching Tool](#using-the-patching-tool) method.
 
 > The following example
 

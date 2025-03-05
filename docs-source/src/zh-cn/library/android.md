@@ -152,6 +152,38 @@ class MainActivity : Activity() {
 
 :::
 
+#### 使用修补工具
+
+你可以使用 `PanguTextPatcher` 修补现有的 `View` 或 `ViewGroup` 实例。
+
+修补整个根布局，`PanguTextPatcher` 会自动修补根布局下的所有 `TextView` 或继承于其的组件。
+
+> 示例如下
+
+```kotlin
+// 假设你有一个根布局
+val root: ViewGroup
+// 修补根布局
+PanguTextPatcher.patch(root)
+```
+
+修补单个 `View`，类型为 `TextView` 或继承于 `TextView` 的组件。
+
+> 示例如下
+
+```kotlin
+// 假设这就是你的 TextView
+val textView: TextView
+// 修补单个 View
+PanguTextPatcher.patch(textView)
+```
+
+::: warning
+
+在 `RecyclerView`、`ListView`、`ViewPager` 等回收式布局中使用 `PanguTextPatcher` 时，你需要在 `onCreateViewHolder` 或 `onBindViewHolder` 中获取到 `itemView` 后进行修补，否则不会生效。
+
+:::
+
 #### 手动注入或格式化文本
 
 `PanguText` 同样支持手动注入，你可以在需要的 `TextView` 或 `EditText` 上手动进行注入。
@@ -351,7 +383,7 @@ textView.injectPanguText(config = config2)
 
 :::
 
-在自定义 `View` 中，你可以将你的 `View` 继承于 `PanguTextView` 接口以同样实现上述功能。
+在自定义 `View` 中，你可以将你的 `View` 继承于 `PanguTextView` 接口以同样实现上述功能，此功能对 [使用修补工具](#使用修补工具) 方案同样有效。
 
 > 示例如下
 

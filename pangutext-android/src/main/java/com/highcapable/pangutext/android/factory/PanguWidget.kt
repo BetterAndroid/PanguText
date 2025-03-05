@@ -85,44 +85,59 @@ internal object PanguWidget {
         }
         // Ignore if the instance is not a [TextView].
         if (instance !is TextView) return null
-        var config = PanguText.globalConfig
+        return startInjection(instance, attrs)
+    }
+
+    /**
+     * Start the injection of [PanguText] to the given [TextView].
+     * @param instance the instance of [TextView].
+     * @param attrs the attributes.
+     * @param config the configuration of [PanguText].
+     * @return [TV]
+     */
+    inline fun <reified TV : TextView> startInjection(
+        instance: TV,
+        attrs: AttributeSet? = null,
+        config: PanguTextConfig = PanguText.globalConfig
+    ): TV {
+        var sConfig = config
         if (instance is PanguTextView) {
-            val configCopy = config.copy()
+            val configCopy = sConfig.copy()
             instance.configurePanguText(configCopy)
-            config = configCopy
-            if (!config.isEnabled) return instance
+            sConfig = configCopy
+            if (!sConfig.isEnabled) return instance
         } else instance.obtainStyledAttributes(attrs, R.styleable.PanguTextHelper) {
             val isEnabled = it.getBooleanOrNull(R.styleable.PanguTextHelper_panguText_enabled)
             val isProcessedSpanned = it.getBooleanOrNull(R.styleable.PanguTextHelper_panguText_processedSpanned)
             val isAutoRemeasureText = it.getBooleanOrNull(R.styleable.PanguTextHelper_panguText_autoRemeasureText)
             val cjkSpacingRatio = it.getFloatOrNull(R.styleable.PanguTextHelper_panguText_cjkSpacingRatio)
             val excludePatterns = it.getStringOrNull(R.styleable.PanguTextHelper_panguText_excludePatterns)
-                ?.split(TEXT_REGEX_SPLITE_SYMBOL)?.mapNotNull { regex -> 
+                ?.split(TEXT_REGEX_SPLITE_SYMBOL)?.mapNotNull { regex ->
                     runCatching { regex.toRegex() }.onFailure { th ->
                         Log.e(PangutextAndroidProperties.PROJECT_NAME, "Invalid exclude pattern of $instance: $regex", th)
                     }.getOrNull()
                 }?.toTypedArray() ?: emptyArray()
             if (isEnabled == false) return instance
             if (isProcessedSpanned != null || isAutoRemeasureText != null || cjkSpacingRatio != null || excludePatterns.isNotEmpty()) {
-                val configCopy = config.copy()
-                configCopy.isProcessedSpanned = isProcessedSpanned ?: config.isProcessedSpanned
-                configCopy.isAutoRemeasureText = isAutoRemeasureText ?: config.isAutoRemeasureText
-                configCopy.cjkSpacingRatio = cjkSpacingRatio ?: config.cjkSpacingRatio
+                val configCopy = sConfig.copy()
+                configCopy.isProcessedSpanned = isProcessedSpanned ?: sConfig.isProcessedSpanned
+                configCopy.isAutoRemeasureText = isAutoRemeasureText ?: sConfig.isAutoRemeasureText
+                configCopy.cjkSpacingRatio = cjkSpacingRatio ?: sConfig.cjkSpacingRatio
                 if (excludePatterns.isNotEmpty()) {
-                    config.excludePatterns.clear()
-                    config.excludePatterns.addAll(excludePatterns)
-                }; config = configCopy
+                    sConfig.excludePatterns.clear()
+                    sConfig.excludePatterns.addAll(excludePatterns)
+                }; sConfig = configCopy
             }
         }
         when (instance.javaClass.name) {
             // Specialize those components because loading "hint" style after [doOnAttachRepeatable] causes problems.
             "com.google.android.material.textfield.TextInputEditText",
             "com.google.android.material.textfield.MaterialAutoCompleteTextView" -> {
-                instance.injectPanguText(config = config)
-                instance.doOnAttachRepeatable(config) { it.injectRealTimePanguText(injectHint = false, config) }
+                instance.injectPanguText(config = sConfig)
+                instance.doOnAttachRepeatable(sConfig) { it.injectRealTimePanguText(injectHint = false, sConfig) }
             }
-            else -> instance.doOnAttachRepeatable(config) {
-                it.injectRealTimePanguText(config = config)
+            else -> instance.doOnAttachRepeatable(sConfig) {
+                it.injectRealTimePanguText(config = sConfig)
             }
         }; return instance
     }
