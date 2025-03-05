@@ -10,7 +10,13 @@
 
 ## pangutext-android
 
-### 1.0.1 | 2025.02.11 &ensp;<Badge type="tip" text="最新" vertical="middle" />
+### 1.0.2 | 2025.03.05 &ensp;<Badge type="tip" text="最新" vertical="middle" />
+
+- `PanguTextFactory2` 在注入时新增异常捕获，避免在 `View` 自身初始化过程中断整个处理过程
+- 移除重复注入的警告日志，现在重复注入 `PanguText` 将无任何作用产生
+- 新增 `PanguTextPatcher`，可以使用新的方案注入 `PanguText`
+
+### 1.0.1 | 2025.02.11 &ensp;<Badge type="warning" text="过旧" vertical="middle" />
 
 - 修复注入 `PanguText` 后 `TextView` 可能导致测量宽度不正确的问题
 - `PanguTextConfig` 新增 `isAutoRemeasureText`，用于控制是否自动重新测量文本宽度 (作用于 `TextView` 单行文本)

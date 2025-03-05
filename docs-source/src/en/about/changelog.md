@@ -18,7 +18,13 @@ Time zone of version release date: **UTC+8**
 
 ## pangutext-android
 
-### 1.0.1 | 2025.02.11 &ensp;<Badge type="tip" text="latest" vertical="middle" />
+### 1.0.2 | 2025.03.05 &ensp;<Badge type="tip" text="latest" vertical="middle" />
+
+- Added exception handling in `PanguTextFactory2` during injection to avoid interrupting the entire process during `View` initialization
+- Removed duplicate injection warning logs, now duplicate injections of `PanguText` will have no effect
+- Added `PanguTextPatcher`, which allows injecting `PanguText` using a new method
+
+### 1.0.1 | 2025.02.11 &ensp;<Badge type="warning" text="stale" vertical="middle" />
 
 - Fixed an issue where injecting `PanguText` could cause incorrect width measurement in `TextView`
 - Added `isAutoRemeasureText` to `PanguTextConfig` to control whether to automatically remeasure text width (applies to single-line text in `TextView`)
