@@ -31,13 +31,13 @@ import com.highcapable.pangutext.demo.ui.base.BaseActivity
 
 class ListActivity : BaseActivity<ActivityListBinding>() {
 
-    private val listData = List(100) { "这是第${it}条Data演示" }
+    private val listData = List(100) { "这是第${it + 1}条Data演示" }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.recyclerView.bindAdapter<String> { 
             onBindData { listData }
-            onBindViews<AdapterListBinding> { binding, text, _ -> 
+            onBindItemView<AdapterListBinding> { binding, text, _ ->
                 binding.text.text = text
                 binding.text.textColor = Color.rgb(
                     (0..255).random(),
