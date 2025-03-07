@@ -30,7 +30,7 @@ plugins:
 libraries:
   com.highcapable.betterandroid:
     ui-component:
-      version: 1.0.6
+      version: 1.0.7
     ui-extension:
       version: 1.0.6
     system-extension:
