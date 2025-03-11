@@ -32,7 +32,7 @@ export const configs = {
     },
     website: {
         base: '/PanguText/',
-        icon: '/images/logo.png',
+        icon: '/PanguText/images/logo.png',
         logo: '/images/logo.png',
         title: 'Pangu Text',
         locales: {
