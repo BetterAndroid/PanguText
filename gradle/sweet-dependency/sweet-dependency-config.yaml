@@ -13,19 +13,20 @@ repositories:
 plugins:
   com.android.application:
     alias: android-application
-    version: 8.5.2
+    version: 8.9.0
   com.android.library:
     alias: android-library
     version-ref: com.android.application
   org.jetbrains.kotlin.android:
     alias: kotlin-android
-    version: 2.0.21
+    version: 2.1.10
   org.jetbrains.dokka:
     alias: kotlin-dokka
     version: 1.9.20
+    auto-update: false
   com.vanniktech.maven.publish:
     alias: maven-publish
-    version: 0.30.0
+    version: 0.31.0
 
 libraries:
   com.highcapable.betterandroid:
@@ -53,7 +54,7 @@ libraries:
       auto-update: false
   androidx.constraintlayout:
     constraintlayout:
-      version: 2.2.0
+      version: 2.2.1
   junit:
     junit:
       version: 4.13.2
