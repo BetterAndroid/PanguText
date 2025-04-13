@@ -4,7 +4,7 @@
 
 ## License
 
-[Apache-2.0](https://github.com/HighCapable/YukiReflection/blob/master/LICENSE)
+[Apache-2.0](https://github.com/BetterAndroid/PanguText/blob/main/LICENSE)
 
 ```:no-line-numbers
 Apache License Version 2.0
