@@ -29,6 +29,26 @@ Configure dependency in your project `build.gradle.kts`.
 implementation(com.highcapable.pangutext.pangutext.android)
 ```
 
+### Version Catalog
+
+Add dependency in your project's `gradle/libs.versions.toml`.
+
+```toml
+[versions]
+pangutext-android = "<version>"
+
+[libraries]
+pangutext-android = { module = "com.highcapable.pangutext:pangutext-android", version.ref = "pangutext-android" }
+```
+
+Configure dependency in your project `build.gradle.kts`.
+
+```kotlin
+implementation(libs.pangutext.android)
+```
+
+Please change `<version>` to the version displayed at the top of this document.
+
 ### Traditional Method
 
 Configure dependency in your project `build.gradle.kts`.
