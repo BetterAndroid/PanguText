@@ -25,9 +25,8 @@ package com.highcapable.pangutext.android.extension
 
 import android.text.SpannableStringBuilder
 import android.util.Log
+import com.highcapable.kavaref.KavaRef.Companion.resolve
 import com.highcapable.pangutext.android.generated.PangutextAndroidProperties
-import com.highcapable.yukireflection.factory.classOf
-import com.highcapable.yukireflection.factory.field
 import java.util.regex.Matcher
 
 /**
@@ -101,10 +100,10 @@ private fun Matcher.buildReplacementText(replacement: String): String {
  * @return [Int]
  */
 private fun Matcher.getNamedGroupIndex(groupName: String): Int {
-    val namedGroups = classOf<Matcher>()
-        .field { name = "namedGroups" }
-        .ignored()
-        .get(this)
-        .cast<Map<String, Int>>()
+    val namedGroups = Matcher::class.resolve()
+        .optional(silent = true)
+        .firstFieldOrNull {
+            name = "namedGroups"
+        }?.of(this)?.getQuietly<Map<String, Int>>()
     return namedGroups?.get(groupName) ?: -1
 }

@@ -31,13 +31,13 @@ import android.text.Spanned
 import android.text.style.CharacterStyle
 import android.widget.TextView
 import androidx.annotation.Px
+import com.highcapable.kavaref.extension.classOf
 import com.highcapable.pangutext.android.core.PanguMarginSpan
 import com.highcapable.pangutext.android.core.PanguPatterns
 import com.highcapable.pangutext.android.extension.injectPanguText
 import com.highcapable.pangutext.android.extension.injectRealTimePanguText
 import com.highcapable.pangutext.android.extension.setHintWithPangu
 import com.highcapable.pangutext.android.extension.setTextWithPangu
-import com.highcapable.yukireflection.factory.classOf
 
 /**
  * The library core of Pangu text processor.
@@ -52,7 +52,7 @@ object PanguText {
      * with no actual meaning.
      */
     private const val PH = '\u001C'
-    
+
     /**
      * The global configuration of [PanguText].
      */

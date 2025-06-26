@@ -29,9 +29,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import com.highcapable.betterandroid.ui.extension.view.layoutInflater
+import com.highcapable.kavaref.KavaRef.Companion.resolve
 import com.highcapable.pangutext.android.generated.PangutextAndroidProperties
-import com.highcapable.yukireflection.factory.field
-import com.highcapable.yukireflection.type.android.LayoutInflaterClass
 
 /**
  * Pangu text factory 2 for [LayoutInflater.Factory2].
@@ -110,11 +109,10 @@ class PanguTextFactory2 private constructor(private val base: LayoutInflater.Fac
             }
             val replacement = PanguTextFactory2(original)
             if (original != null)
-                LayoutInflaterClass.field {
+                inflater.resolve().optional(silent = true).firstFieldOrNull {
                     name = "mFactory2"
-                }.ignored().onNoSuchField {
-                    Log.e(PangutextAndroidProperties.PROJECT_NAME, "LayoutInflater.mFactory2 not found.", it)
-                }.get(inflater).set(replacement)
+                    superclass()
+                }?.setQuietly(replacement) ?: Log.e(PangutextAndroidProperties.PROJECT_NAME, "LayoutInflater.mFactory2 not found.")
             else inflater.factory2 = replacement
         }
     }

@@ -13,7 +13,7 @@ repositories:
 plugins:
   com.android.application:
     alias: android-application
-    version: 8.9.0
+    version: 8.9.3
   com.android.library:
     alias: android-library
     version-ref: com.android.application
@@ -26,7 +26,7 @@ plugins:
     auto-update: false
   com.vanniktech.maven.publish:
     alias: maven-publish
-    version: 0.31.0
+    version: 0.33.0
 
 libraries:
   com.highcapable.betterandroid:
@@ -36,17 +36,19 @@ libraries:
       version: 1.0.6
     system-extension:
       version: 1.0.2
-  com.highcapable.yukireflection:
-    api:
-      version: 1.0.3
+  com.highcapable.kavaref:
+    kavaref-core:
+      version: 1.0.0
+    kavaref-extension:
+      version: 1.0.0
   androidx.core:
     core:
-      version: 1.15.0
+      version: 1.16.0
     core-ktx:
       version-ref: <this>::core
   androidx.appcompat:
     appcompat:
-      version: 1.7.0
+      version: 1.7.1
   com.google.android.material:
     material:
       # Workaround for a bug in version 1.12.0

@@ -31,6 +31,10 @@ import com.highcapable.betterandroid.ui.extension.component.base.getBooleanOrNul
 import com.highcapable.betterandroid.ui.extension.component.base.getFloatOrNull
 import com.highcapable.betterandroid.ui.extension.component.base.getStringOrNull
 import com.highcapable.betterandroid.ui.extension.component.base.obtainStyledAttributes
+import com.highcapable.kavaref.KavaRef.Companion.resolve
+import com.highcapable.kavaref.extension.classOf
+import com.highcapable.kavaref.extension.isNotSubclassOf
+import com.highcapable.kavaref.extension.toClassOrNull
 import com.highcapable.pangutext.android.PanguText
 import com.highcapable.pangutext.android.PanguTextConfig
 import com.highcapable.pangutext.android.R
@@ -38,12 +42,6 @@ import com.highcapable.pangutext.android.core.PanguTextView
 import com.highcapable.pangutext.android.extension.injectPanguText
 import com.highcapable.pangutext.android.extension.injectRealTimePanguText
 import com.highcapable.pangutext.android.generated.PangutextAndroidProperties
-import com.highcapable.yukireflection.factory.classOf
-import com.highcapable.yukireflection.factory.constructor
-import com.highcapable.yukireflection.factory.notExtends
-import com.highcapable.yukireflection.factory.toClassOrNull
-import com.highcapable.yukireflection.type.android.AttributeSetClass
-import com.highcapable.yukireflection.type.android.ContextClass
 
 /**
  * A widgets processor that automatically applies [PanguText] to the text content.
@@ -67,19 +65,19 @@ internal object PanguWidget {
             if (!it.contains(".")) "android.widget.$it" else it
         }.toClassOrNull()?.let { viewClass ->
             // Avoid creating unnecessary components for waste.
-            if (viewClass notExtends classOf<TextView>()) return null
-            val twoParams = viewClass.constructor {
-                param(ContextClass, AttributeSetClass)
-            }.ignored().get()
-            val onceParam = viewClass.constructor {
-                param(ContextClass)
-            }.ignored().get()
+            if (viewClass isNotSubclassOf classOf<TextView>()) return null
+            val twoParams = viewClass.resolve()
+                .optional(silent = true)
+                .firstConstructorOrNull { parameters(Context::class, AttributeSet::class) }
+            val onceParam = viewClass.resolve()
+                .optional(silent = true)
+                .firstConstructorOrNull { parameters(Context::class) }
             // Catching when the attrs value initialization failed.
-            runCatching { twoParams.newInstance<View>(context, attrs) }.onFailure {
+            runCatching { twoParams?.create(context, attrs) }.onFailure {
                 Log.w(PangutextAndroidProperties.PROJECT_NAME, "Failed to create instance of $viewClass using (Context, AttributeSet).", it)
             }.getOrNull()
                 // Try to initialize with the default constructor again, otherwise return null.
-                ?: runCatching { onceParam.newInstance<View>(context) }.onFailure { 
+                ?: runCatching { onceParam?.create(context) }.onFailure {
                     Log.w(PangutextAndroidProperties.PROJECT_NAME, "Failed to create instance of $viewClass, this process will be ignored.", it)
                 }.getOrNull()
         }
