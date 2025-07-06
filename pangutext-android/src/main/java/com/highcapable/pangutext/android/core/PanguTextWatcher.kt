@@ -26,7 +26,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
 import com.highcapable.betterandroid.system.extension.tool.SystemVersion
-import com.highcapable.kavaref.KavaRef.Companion.resolve
+import com.highcapable.kavaref.KavaRef.Companion.asResolver
 import com.highcapable.pangutext.android.PanguText
 import com.highcapable.pangutext.android.PanguTextConfig
 import com.highcapable.pangutext.android.extension.injectRealTimePanguText
@@ -45,7 +45,7 @@ class PanguTextWatcher internal constructor(private val base: TextView, private 
      * @return [ArrayList]<[TextWatcher]>.
      */
     private val textWatchers 
-        get() = base.resolve().optional(silent = true).firstFieldOrNull {
+        get() = base.asResolver().optional(silent = true).firstFieldOrNull {
             name = "mListeners"
             superclass()
         }?.getQuietly<ArrayList<TextWatcher>>()
