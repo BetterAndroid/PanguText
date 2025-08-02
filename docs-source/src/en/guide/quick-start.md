@@ -5,7 +5,7 @@
 ## Project Requirements
 
 The project needs to be created using `Android Studio` or `IntelliJ IDEA` and be of type Android or Kotlin Multiplatform
-project and have integrated Kotlin environment dependencies.
+project with integrated Kotlin environment dependencies.
 
 - Android Studio (It is recommended to get the latest version [from here](https://developer.android.com/studio))
 
@@ -15,8 +15,8 @@ project and have integrated Kotlin environment dependencies.
 
 ### Configure Repositories
 
-The dependencies of `PanguText` are published in **Maven Central** and our public repository,
-you can use the following method to configure repositories.
+The dependencies of `PanguText` are published in **Maven Central** and our public repository.
+You can use the following method to configure repositories.
 
 We recommend using Kotlin DSL as the Gradle build script language and [SweetDependency](https://github.com/HighCapable/SweetDependency)
 to manage dependencies.
@@ -45,7 +45,7 @@ repositories {
     google()
     mavenCentral()
     // (Optional) You can add this URL to use our public repository
-    // When Sonatype-OSS fails and cannot publish dependencies, this repository is added as a backup
+    // When Sonatype OSS fails and cannot publish dependencies, this repository is added as a backup
     // For details, please visit: https://github.com/HighCapable/maven-repository
     maven("https://raw.githubusercontent.com/HighCapable/maven-repository/main/repository/releases")
 }

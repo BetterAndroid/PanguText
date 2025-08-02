@@ -93,7 +93,7 @@ Integrating `PanguText` into your current project is very easy. You don't need t
 
 #### Inject to LayoutInflater
 
-`PanguText` supports direct injection of `LayoutInflater.Factory2` or creating a `LayoutInflater.Factory2` instance for the current `Activity` to take over the entire view. This is the recommended integration method, as it allows for non-intrusive and quick integration without modifying any existing layouts.
+`PanguText` supports direct injection of `LayoutInflater.Factory2` or creating a `LayoutInflater.Factory2` instance for the current `Activity` to take over the entire view layout inflation. This is the recommended integration method, as it allows for non-intrusive and quick integration without modifying any existing layouts.
 
 > The following example
 
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
 
 ::: tip
 
-Since `LayoutInflater.Factory2` is taken over, recycled layouts like `ListView` and `RecyclerView` can also be correctly taken over.
+Since `LayoutInflater.Factory2` is taken over, recycled layouts like `ListView` and `RecyclerView` can also be correctly handled.
 
 After injecting the `LayoutInflater` instance in the `Activity`, the following instances attached to the current `Context` will automatically take effect:
 
@@ -122,7 +122,7 @@ After injecting the `LayoutInflater` instance in the `Activity`, the following i
 - `PopupWindow`
 - `Toast` (foreground only in higher system versions)
 
-Layouts based on `RemoteView` will not take effect because they are remote objects and do not use the current `Context`'s `LayoutInflater` for layout loading.
+Layouts based on `RemoteView` will not take effect because they are remote objects and do not use the current `Context`'s `LayoutInflater` for layout inflation.
 
 :::
 
@@ -166,7 +166,7 @@ class MainActivity : Activity() {
 ::: tip
 
 `PanguTextFactory2` can be used not only with `Activity` but also injected into any existing `LayoutInflater` instance.
-However, please inject before the `LayoutInflater` instance is used to load the layout, otherwise it will not take effect.
+However, please inject it before the `LayoutInflater` instance is used to inflate the layout, otherwise it will not take effect.
 
 :::
 
@@ -174,7 +174,7 @@ However, please inject before the `LayoutInflater` instance is used to load the 
 
 You can use `PanguTextPatcher` to patch existing `View` or `ViewGroup` instances.
 
-Patch the entire root layout, and `PanguTextPatcher` will automatically patch all `TextView` or its subclasses under the root layout.
+Patch the entire root layout, and `PanguTextPatcher` will automatically patch all `TextView` instances or their subclasses under the root layout.
 
 > The following example
 
@@ -326,19 +326,19 @@ config.isEnabled = true
 // If issues occur, you can disable it. When disabled, Spanned text will return the original text.
 config.isProcessedSpanned = true
 // Whether to automatically re-measure the text width after processing.
-// Note: [PanguText] after injecting text and changing the text,
+// Note: After [PanguText] injects text and changes the text,
 // the width of [TextView] will not be calculated automatically.
 // At this time, this feature will call [TextView.setText] to re-execute the measurements,
-// which can fix every time in some dynamic layouts (such as `RecyclerView`) changes in text width,
-// but may cause performance issues, you can choose to disable this feature.
+// which can fix issues in some dynamic layouts (such as `RecyclerView`) where text width changes each time,
+// but may cause performance issues. You can choose to disable this feature.
 // To prevent unnecessary performance overhead,
 // this feature only takes effect on [TextView] with `maxLines` set to 1 or `singleLine`.
 config.isAutoRemeasureText = true
 // Set patterns to exclude during formatting using regular expressions.
 // For example, exclude all URLs.
 config.excludePatterns.add("https?://\\S+".toRegex())
-// For example, exclude emoji placeholders like "[doge]",
-// if you use [ImageSpan] to display emoji images, you can choose to exclude these placeholders.
+// For example, exclude emoji placeholders like "[doge]".
+// If you use [ImageSpan] to display emoji images, you can choose to exclude these placeholders.
 config.excludePatterns.add("\\[.*?]".toRegex())
 // Set the spacing ratio for CJK characters.
 // This determines the final layout effect.

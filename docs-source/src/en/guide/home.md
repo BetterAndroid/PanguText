@@ -1,4 +1,4 @@
-# Introduce
+# Introduction
 
 > `PanguText` is a solution for CJK (Chinese, Japanese, Korean) and English word, half-width number spacing.
 
@@ -13,7 +13,7 @@ Currently, the known vendor solutions are as follows:
 - Xiaomi’s (HyperOS) text typography optimization
 - OrginOS’s font-based text typography optimization
 
-However, these solutions are closed and cannot be implemented on other platforms.
+However, these solutions are closed-source and cannot be implemented on other platforms.
 We aim to provide an open-source solution adaptable to various scenarios, featuring low intrusiveness and easy integration, allowing more developers to effectively address text typography issues.
 
 The primary inspiration for this project comes from [pangu.js](https://github.com/vinta/pangu.js), which offers a set of regular expressions for CJK typography.
@@ -66,5 +66,5 @@ The maintenance of this project is inseparable from the support and contribution
 
 This project is currently in its early stages, and there may still be some problems or lack of functions you need.
 
-If possible, feel free to submit a PR to contribute features you think are needed to this project or goto [GitHub Issues](repo://issues)
+If possible, feel free to submit a PR to contribute features you think are needed to this project or go to [GitHub Issues](repo://issues)
 to make suggestions to us.

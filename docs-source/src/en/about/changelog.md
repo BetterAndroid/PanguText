@@ -4,13 +4,13 @@
 
 ::: danger
 
-We will only maintain the latest API version, if you are using an outdate API version, you voluntarily renounce any possibility of maintenance.
+We will only maintain the latest API version. If you are using an outdated API version, you voluntarily renounce any possibility of maintenance.
 
 :::
 
 ::: warning
 
-To avoid translation time consumption, Changelog will use **Google Translation** from **Chinese** to **English**, please refer to the original text for actual reference.
+To avoid translation time consumption, the Changelog will use **Google Translation** from **Chinese** to **English**. Please refer to the original text for actual reference.
 
 Time zone of version release date: **UTC+8**
 
