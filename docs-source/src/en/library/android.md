@@ -41,7 +41,7 @@ pangutext-android = "<version>"
 pangutext-android = { module = "com.highcapable.pangutext:pangutext-android", version.ref = "pangutext-android" }
 ```
 
-Configure dependency in your project `build.gradle.kts`.
+Configure dependency in your project's `build.gradle.kts`.
 
 ```kotlin
 implementation(libs.pangutext.android)
@@ -51,7 +51,7 @@ Please change `<version>` to the version displayed at the top of this document.
 
 ### Traditional Method
 
-Configure dependency in your project `build.gradle.kts`.
+Configure dependency in your project's `build.gradle.kts`.
 
 ```kotlin
 implementation("com.highcapable.pangutext:pangutext-android:<version>")
