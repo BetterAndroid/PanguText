@@ -7,9 +7,9 @@
 The project needs to be created using `Android Studio` or `IntelliJ IDEA` and be of type Android or Kotlin Multiplatform
 project with integrated Kotlin environment dependencies.
 
-- Android Studio (It is recommended to get the latest version [from here](https://developer.android.com/studio))
+- Android Studio (It is recommended to get the latest version from [here](https://developer.android.com/studio))
 
-- IntelliJ IDEA (It is recommended to get the latest version [from here](https://www.jetbrains.com/idea))
+- IntelliJ IDEA (It is recommended to get the latest version from [here](https://www.jetbrains.com/idea))
 
 - Kotlin 1.9.0+, Gradle 8+, Java 17+, Android Gradle Plugin 8+
 
@@ -38,7 +38,7 @@ repositories:
 
 #### Traditional Method
 
-Configure repositories in your project `build.gradle.kts`.
+Configure repositories in your project's `build.gradle.kts`.
 
 ```kotlin
 repositories {
@@ -53,7 +53,7 @@ repositories {
 
 ### Configure Java Version
 
-Modify the Java version of Kotlin in your project `build.gradle.kts` to 17 or above.
+Modify the Java version of Kotlin in your project's `build.gradle.kts` to 17 or above.
 
 > Kotlin DSL
 
