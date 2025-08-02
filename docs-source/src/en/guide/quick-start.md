@@ -45,7 +45,7 @@ repositories {
     google()
     mavenCentral()
     // (Optional) You can add this URL to use our public repository
-    // When Sonatype OSS fails and cannot publish dependencies, this repository is added as a backup
+    // When Sonatype-OSS fails and cannot publish dependencies, this repository is added as a backup
     // For details, please visit: https://github.com/HighCapable/maven-repository
     maven("https://raw.githubusercontent.com/HighCapable/maven-repository/main/repository/releases")
 }
