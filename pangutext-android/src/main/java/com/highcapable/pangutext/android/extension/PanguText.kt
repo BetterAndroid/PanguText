@@ -57,6 +57,7 @@ fun PanguTextConfig(copyFromGlobal: Boolean = true, body: PanguTextConfig.() -> 
 @JvmOverloads
 fun TextView.injectPanguText(injectHint: Boolean = true, config: PanguTextConfig = PanguText.globalConfig) {
     if (!config.isEnabled) return
+
     setTextWithPangu(this.text, config)
     if (injectHint) setHintWithPangu(this.hint, config)
 }
@@ -75,11 +76,15 @@ fun TextView.injectPanguText(injectHint: Boolean = true, config: PanguTextConfig
 @JvmOverloads
 fun TextView.injectRealTimePanguText(injectHint: Boolean = true, config: PanguTextConfig = PanguText.globalConfig) {
     if (!config.isEnabled) return
+
     val observerKey = R.id.tag_inject_real_time_pangu_text
     val isRepeated = getTag<Boolean>(observerKey) == true
+
     // It will no longer be executed if it exceeds one time.
     if (isRepeated) return
+
     injectPanguText(injectHint, config)
+
     var currentHint = this.hint
     val textWatcher = PanguTextWatcher(base = this, config)
     val listener = ViewTreeObserver.OnGlobalLayoutListener {
@@ -88,13 +93,17 @@ fun TextView.injectRealTimePanguText(injectHint: Boolean = true, config: PanguTe
             self.setHintWithPangu(self.hint, config)
         currentHint = self.hint
     }
+
     setTag(observerKey, true)
     doOnAttach {
         addTextChangedListener(textWatcher)
+
         // Add a global layout listener to monitor the hint text changes.
         if (injectHint) viewTreeObserver?.addOnGlobalLayoutListener(listener)
+
         doOnDetach {
             removeTextChangedListener(textWatcher)
+
             // Remove the global layout listener when the view is detached.
             if (injectHint) viewTreeObserver?.removeOnGlobalLayoutListener(listener)
             setTag(observerKey, false)
@@ -112,7 +121,10 @@ fun TextView.injectRealTimePanguText(injectHint: Boolean = true, config: PanguTe
 @JvmOverloads
 fun TextView.setTextWithPangu(text: CharSequence?, config: PanguTextConfig = PanguText.globalConfig) {
     if (!config.isEnabled) return
-    this.text = text?.let { PanguText.format(resources, textSize, it, config) }
+
+    this.text = text?.let {
+        PanguText.format(resources, textSize, it, config)
+    }
 }
 
 /**
@@ -125,5 +137,8 @@ fun TextView.setTextWithPangu(text: CharSequence?, config: PanguTextConfig = Pan
 @JvmOverloads
 fun TextView.setHintWithPangu(text: CharSequence?, config: PanguTextConfig = PanguText.globalConfig) {
     if (!config.isEnabled) return
-    this.hint = text?.let { PanguText.format(resources, textSize, it, config) }
+
+    this.hint = text?.let {
+        PanguText.format(resources, textSize, it, config)
+    }
 }

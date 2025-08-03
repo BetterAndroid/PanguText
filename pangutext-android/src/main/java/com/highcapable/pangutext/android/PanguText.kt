@@ -88,6 +88,7 @@ object PanguText {
     fun format(resources: Resources, @Px textSize: Float, text: CharSequence, config: PanguTextConfig = globalConfig): CharSequence {
         if (!config.isEnabled) return text
         if (text.isBlank()) return text
+
         val formatted = format(text, PH, config)
         return text.applySpans(formatted, resources, textSize, config)
     }
@@ -110,9 +111,11 @@ object PanguText {
     @JvmStatic
     fun format(text: CharSequence, whiteSpace: Char = ' ', config: PanguTextConfig = globalConfig): CharSequence {
         if (!config.isEnabled) return text
+
         // In any case, always perform a cleanup operation before accepting text.
         val processed = text.clearSpans()
         val patterns = config.excludePatterns.toTypedArray()
+
         return if ((config.isProcessedSpanned || text !is Spanned) && text.isNotBlank() && text.length > 1)
             PanguPatterns.matchAndReplace(processed, whiteSpace, *patterns)
         else processed
@@ -136,6 +139,7 @@ object PanguText {
         whiteSpace: Char = PH
     ): CharSequence {
         val builder = SpannableStringBuilder(formatted)
+
         formatted.forEachIndexed { index, c ->
             // Add spacing to the previous character.
             if (c == whiteSpace && index in 0..formatted.lastIndex) {
@@ -143,20 +147,26 @@ object PanguText {
                 builder.setSpan(span, index - 1, index, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
             }
         }
+
         // Delete the placeholder character.
         for (i in (builder.length - 1) downTo 0) {
             if (builder[i] == whiteSpace) builder.delete(i, i + 1)
         }
+
         // Find the [PanguMarginSpan.Placeholder] subscript in [builder] and use [PanguMarginSpan] to set it to [original].
         val builderSpans = builder.getSpans(0, builder.length, classOf<PanguMarginSpan.Placeholder>())
         val spannable = if (this !is Spannable) SpannableString(this) else this
+
         // Add new [PanguMarginSpan].
         builderSpans.forEach {
             val start = builder.getSpanStart(it)
             val end = builder.getSpanEnd(it)
+
             val span = PanguMarginSpan.create(resources, textSize, config.cjkSpacingRatio)
             spannable.setSpan(span, start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-        }; builder.clear()
+        }
+
+        builder.clear()
         return spannable
     }
 
@@ -170,12 +180,16 @@ object PanguText {
      */
     private fun CharSequence.clearSpans(): CharSequence {
         if (this !is Spannable || isBlank() || !hasSpan<PanguMarginSpan>()) return this
+
         getSpans(0, length, classOf<PanguMarginSpan>()).forEach { span ->
             val start = getSpanStart(span)
-            val end = getSpanEnd(span) 
+            val end = getSpanEnd(span)
+
             // Clear the [PanguMarginSpan].
             if (start < length && end > 0) removeSpan(span)
-        }; return this
+        }
+
+        return this
     }
 
     /**
@@ -186,6 +200,7 @@ object PanguText {
     private inline fun <reified T : CharacterStyle> CharSequence.hasSpan(): Boolean {
         val spannable = this as? Spanned ?: return false
         val spans = spannable.getSpans(0, spannable.length, classOf<T>())
+
         return spans.isNotEmpty()
     }
 }

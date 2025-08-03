@@ -46,9 +46,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding.root.handleOnWindowInsetsChanged(animated = true) { linearLayout, insetsWrapper ->
             linearLayout.setInsetsPadding(insetsWrapper.safeDrawing)
         }
+
         listOf(
             binding.textViewPanguText,
             binding.textViewPanguTextCjkSpacingRatio,

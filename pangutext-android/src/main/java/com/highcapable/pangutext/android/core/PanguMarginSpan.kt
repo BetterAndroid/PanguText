@@ -76,18 +76,24 @@ internal class PanguMarginSpan(@Px val margin: Int) : ReplacementSpan() {
                     // Get background color.
                     val color = span.backgroundColor
                     val originalColor = paint.color
+                    
                     // Save the current [paint] color.
                     paint.color = color
+                    
                     // Get the width of the text.
                     val textWidth = paint.measureText(text, start, end)
+                    
                     // Draw background rectangle.
                     canvas.drawRect(x, top.toFloat(), x + textWidth + margin, bottom.toFloat(), paint)
+                    
                     // Restore original color.
                     paint.color = originalColor
                 }
                 span is CharacterStyle && paint is TextPaint -> span.updateDrawState(paint)
             }
-        }; text?.let { canvas.drawText(it, start, end, x, y.toFloat(), paint) }
+        }
+
+        text?.let { canvas.drawText(it, start, end, x, y.toFloat(), paint) }
     }
 
     /**

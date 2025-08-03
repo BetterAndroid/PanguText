@@ -32,6 +32,7 @@ open class BaseActivity<VB : ViewBinding> : AppBindingActivity<VB>() {
     override fun onPrepareContentView(savedInstanceState: Bundle?): LayoutInflater {
         val inflater = super.onPrepareContentView(savedInstanceState)
         PanguTextFactory2.inject(inflater)
+
         return inflater
     }
 }

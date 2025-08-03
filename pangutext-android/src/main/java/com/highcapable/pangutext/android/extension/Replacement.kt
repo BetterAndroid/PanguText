@@ -41,26 +41,36 @@ import java.util.regex.Matcher
 internal fun CharSequence.replaceAndPreserveSpans(regex: Regex, replacement: String, vararg excludePatterns: Regex) =
     runCatching {
         val builder = SpannableStringBuilder(this)
+
         val matcher = regex.toPattern().matcher(this)
         val excludeMatchers = excludePatterns.map { it.toPattern().matcher(this) }
         val excludeIndexs = mutableSetOf<Pair<Int, Int>>()
+
         excludeMatchers.forEach {
             while (it.find()) excludeIndexs.add(it.start() to it.end())
         }
+
         var offset = 0
+
         // Offset adjustment to account for changes in the text length after replacements.
         while (matcher.find()) {
             val start = matcher.start() + offset
             val end = matcher.end() + offset
+
             // Skip the replacement if the matched range is excluded.
             // The character range offset is adjusted by 1 to avoid the exclusion of the matched range.
             if (excludeIndexs.any { it.first <= start + 1 && it.second >= end - 1 }) continue
+
             // Perform the replacement.
             val replacementText = matcher.buildReplacementText(replacement)
+
             builder.replace(start, end, replacementText)
+
             // Adjust offset based on the length of the replacement.
             offset += replacementText.length - (end - start)
-        }; builder
+        }
+
+        builder
     }.onFailure {
         Log.w(PangutextAndroidProperties.PROJECT_NAME, "Failed to replace span text content.", it)
     }.getOrNull() ?: this
@@ -74,23 +84,29 @@ internal fun CharSequence.replaceAndPreserveSpans(regex: Regex, replacement: Str
 private fun Matcher.buildReplacementText(replacement: String): String {
     val matcher = this
     var result = replacement
+
     // Check for group references (like $1, $2, ...).
     val pattern = "\\$(\\d+)".toRegex()
     result = pattern.replace(result) { matchResult ->
         val groupIndex = matchResult.groupValues[1].toInt()
+
         if (groupIndex <= matcher.groupCount())
             matcher.group(groupIndex) ?: ""
         else ""
     }
+
     // Check for named groups (like ${groupName}).
     val namedGroupPattern = "\\$\\{([a-zA-Z_][a-zA-Z0-9_]*)\\}".toRegex()
     result = namedGroupPattern.replace(result) { matchResult ->
         val groupName = matchResult.groupValues[1]
         val groupIndex = matcher.getNamedGroupIndex(groupName)
+
         if (groupIndex >= 0)
             matcher.group(groupIndex) ?: ""
         else ""
-    }; return result
+    }
+
+    return result
 }
 
 /**
@@ -105,5 +121,6 @@ private fun Matcher.getNamedGroupIndex(groupName: String): Int {
         .firstFieldOrNull {
             name = "namedGroups"
         }?.of(this)?.getQuietly<Map<String, Int>>()
+
     return namedGroups?.get(groupName) ?: -1
 }

@@ -42,6 +42,7 @@ android {
 dependencies {
     implementation(projects.pangutextAndroid)
     implementation(com.highcapable.betterandroid.ui.component)
+    implementation(com.highcapable.betterandroid.ui.component.adapter)
     implementation(com.highcapable.betterandroid.ui.extension)
     implementation(com.highcapable.betterandroid.system.extension)
     implementation(androidx.core.core.ktx)

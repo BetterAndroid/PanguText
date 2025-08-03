@@ -31,11 +31,13 @@ plugins:
 libraries:
   com.highcapable.betterandroid:
     ui-component:
-      version: 1.0.7
+      version: 1.0.8
+    ui-component-adapter:
+      version: 1.0.0
     ui-extension:
-      version: 1.0.6
+      version: 1.0.7
     system-extension:
-      version: 1.0.2
+      version: 1.0.3
   com.highcapable.kavaref:
     kavaref-core:
       version: 1.0.1

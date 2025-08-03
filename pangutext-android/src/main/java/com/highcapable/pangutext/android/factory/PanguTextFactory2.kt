@@ -107,6 +107,7 @@ class PanguTextFactory2 private constructor(private val base: LayoutInflater.Fac
             if (original is PanguTextFactory2) return run {
                 Log.w(PangutextAndroidProperties.PROJECT_NAME, "PanguTextFactory2 was already injected.")
             }
+
             val replacement = PanguTextFactory2(original)
             if (original != null)
                 inflater.asResolver().optional(silent = true).firstFieldOrNull {

@@ -25,7 +25,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
-import com.highcapable.betterandroid.system.extension.tool.SystemVersion
+import com.highcapable.betterandroid.system.extension.tool.AndroidVersion
 import com.highcapable.kavaref.KavaRef.Companion.asResolver
 import com.highcapable.pangutext.android.PanguText
 import com.highcapable.pangutext.android.PanguTextConfig
@@ -56,21 +56,24 @@ class PanguTextWatcher internal constructor(private val base: TextView, private 
      */
     private val isAutoRemeasureText 
         get() = config.isAutoRemeasureText && base !is EditText && (base.maxLines == 1 ||
-            SystemVersion.require(SystemVersion.Q, base.maxLines == 1) { base.isSingleLine })
+            AndroidVersion.require(AndroidVersion.Q, base.maxLines == 1) { base.isSingleLine })
 
     override fun afterTextChanged(editable: Editable?) {
         editable?.let { PanguText.format(base.resources, base.textSize, it, config) }
         if (!isAutoRemeasureText) return
+
         val currentWatchers = mutableListOf<TextWatcher>()
         textWatchers?.also {
             currentWatchers.addAll(it)
             // Avoid triggering events again during processing.
             it.clear()
         }
+
         // Reset the text to trigger remeasurement.
         base.text = editable
         // Re-add to continue listening to text changes.
         textWatchers?.addAll(currentWatchers)
+
         currentWatchers.clear()
     }
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

@@ -35,6 +35,7 @@ class ListActivity : BaseActivity<ActivityListBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding.recyclerView.bindAdapter<String> { 
             onBindData { listData }
             onBindItemView<AdapterListBinding> { binding, text, _ ->

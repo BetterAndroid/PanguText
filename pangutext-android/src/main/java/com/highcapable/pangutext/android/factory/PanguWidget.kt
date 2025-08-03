@@ -26,11 +26,11 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.withStyledAttributes
 import androidx.core.view.doOnAttach
 import com.highcapable.betterandroid.ui.extension.component.base.getBooleanOrNull
 import com.highcapable.betterandroid.ui.extension.component.base.getFloatOrNull
 import com.highcapable.betterandroid.ui.extension.component.base.getStringOrNull
-import com.highcapable.betterandroid.ui.extension.component.base.obtainStyledAttributes
 import com.highcapable.kavaref.KavaRef.Companion.resolve
 import com.highcapable.kavaref.extension.classOf
 import com.highcapable.kavaref.extension.isNotSubclassOf
@@ -66,12 +66,14 @@ internal object PanguWidget {
         }.toClassOrNull()?.let { viewClass ->
             // Avoid creating unnecessary components for waste.
             if (viewClass isNotSubclassOf classOf<TextView>()) return null
+
             val twoParams = viewClass.resolve()
                 .optional(silent = true)
                 .firstConstructorOrNull { parameters(Context::class, AttributeSet::class) }
             val onceParam = viewClass.resolve()
                 .optional(silent = true)
                 .firstConstructorOrNull { parameters(Context::class) }
+
             // Catching when the attrs value initialization failed.
             runCatching { twoParams?.create(context, attrs) }.onFailure {
                 Log.w(PangutextAndroidProperties.PROJECT_NAME, "Failed to create instance of $viewClass using (Context, AttributeSet).", it)
@@ -81,8 +83,10 @@ internal object PanguWidget {
                     Log.w(PangutextAndroidProperties.PROJECT_NAME, "Failed to create instance of $viewClass, this process will be ignored.", it)
                 }.getOrNull()
         }
+
         // Ignore if the instance is not a [TextView].
         if (instance !is TextView) return null
+
         return startInjection(instance, attrs)
     }
 
@@ -99,34 +103,45 @@ internal object PanguWidget {
         config: PanguTextConfig = PanguText.globalConfig
     ): TV {
         var sConfig = config
+
         if (instance is PanguTextView) {
             val configCopy = sConfig.copy()
+
             instance.configurePanguText(configCopy)
             sConfig = configCopy
+
             if (!sConfig.isEnabled) return instance
-        } else instance.obtainStyledAttributes(attrs, R.styleable.PanguTextHelper) {
-            val isEnabled = it.getBooleanOrNull(R.styleable.PanguTextHelper_panguText_enabled)
-            val isProcessedSpanned = it.getBooleanOrNull(R.styleable.PanguTextHelper_panguText_processedSpanned)
-            val isAutoRemeasureText = it.getBooleanOrNull(R.styleable.PanguTextHelper_panguText_autoRemeasureText)
-            val cjkSpacingRatio = it.getFloatOrNull(R.styleable.PanguTextHelper_panguText_cjkSpacingRatio)
-            val excludePatterns = it.getStringOrNull(R.styleable.PanguTextHelper_panguText_excludePatterns)
+        } else instance.context.withStyledAttributes(attrs, R.styleable.PanguTextHelper) {
+            val isEnabled = getBooleanOrNull(R.styleable.PanguTextHelper_panguText_enabled)
+            val isProcessedSpanned = getBooleanOrNull(R.styleable.PanguTextHelper_panguText_processedSpanned)
+            val isAutoRemeasureText = getBooleanOrNull(R.styleable.PanguTextHelper_panguText_autoRemeasureText)
+            val cjkSpacingRatio = getFloatOrNull(R.styleable.PanguTextHelper_panguText_cjkSpacingRatio)
+
+            val excludePatterns = getStringOrNull(R.styleable.PanguTextHelper_panguText_excludePatterns)
                 ?.split(TEXT_REGEX_SPLITE_SYMBOL)?.mapNotNull { regex ->
                     runCatching { regex.toRegex() }.onFailure { th ->
                         Log.e(PangutextAndroidProperties.PROJECT_NAME, "Invalid exclude pattern of $instance: $regex", th)
                     }.getOrNull()
                 }?.toTypedArray() ?: emptyArray()
+
             if (isEnabled == false) return instance
+
             if (isProcessedSpanned != null || isAutoRemeasureText != null || cjkSpacingRatio != null || excludePatterns.isNotEmpty()) {
                 val configCopy = sConfig.copy()
+
                 configCopy.isProcessedSpanned = isProcessedSpanned ?: sConfig.isProcessedSpanned
                 configCopy.isAutoRemeasureText = isAutoRemeasureText ?: sConfig.isAutoRemeasureText
                 configCopy.cjkSpacingRatio = cjkSpacingRatio ?: sConfig.cjkSpacingRatio
+
                 if (excludePatterns.isNotEmpty()) {
                     sConfig.excludePatterns.clear()
                     sConfig.excludePatterns.addAll(excludePatterns)
-                }; sConfig = configCopy
+                }
+
+                sConfig = configCopy
             }
         }
+
         when (instance.javaClass.name) {
             // Specialize those components because loading "hint" style after [doOnAttachRepeatable] causes problems.
             "com.google.android.material.textfield.TextInputEditText",
@@ -137,12 +152,15 @@ internal object PanguWidget {
             else -> instance.doOnAttachRepeatable(sConfig) {
                 it.injectRealTimePanguText(config = sConfig)
             }
-        }; return instance
+        }
+
+        return instance
     }
 
     /** Copied from [View.doOnAttach]. */
     private inline fun <reified V : View> V.doOnAttachRepeatable(config: PanguTextConfig, crossinline action: (view: V) -> Unit) {
         if (!config.isEnabled) return
+
         if (isAttachedToWindow) action(this)
         addOnAttachStateChangeListener(
             object : View.OnAttachStateChangeListener {
