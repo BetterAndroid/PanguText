@@ -10,7 +10,12 @@
 
 ## pangutext-android
 
-### 1.0.2 | 2025.03.05 &ensp;<Badge type="tip" text="最新" vertical="middle" />
+### 1.0.3 | 2025.08.03 &ensp;<Badge type="tip" text="最新" vertical="middle" />
+
+- 将 Java 反射相关行为由 [YukiReflection](https://github.com/HighCapable/YukiReflection) 迁移至 [KavaRef](https://github.com/HighCapable/KavaRef)
+- 其它已知问题修复
+
+### 1.0.2 | 2025.03.05 &ensp;<Badge type="warning" text="过旧" vertical="middle" />
 
 - `PanguTextFactory2` 在注入时新增异常捕获，避免在 `View` 自身初始化过程中断整个处理过程
 - 移除重复注入的警告日志，现在重复注入 `PanguText` 将无任何作用产生

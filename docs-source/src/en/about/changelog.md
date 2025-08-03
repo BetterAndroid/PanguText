@@ -18,7 +18,12 @@ Time zone of version release date: **UTC+8**
 
 ## pangutext-android
 
-### 1.0.2 | 2025.03.05 &ensp;<Badge type="tip" text="latest" vertical="middle" />
+### 1.0.3 | 2025.08.03 &ensp;<Badge type="tip" text="latest" vertical="middle" />
+
+- Migrate Java reflection-related behavior from [YukiReflection](https://github.com/HighCapable/YukiReflection) to [KavaRef](https://github.com/HighCapable/KavaRef)
+- Other known issues fixed
+
+### 1.0.2 | 2025.03.05 &ensp;<Badge type="warning" text="stale" vertical="middle" />
 
 - Added exception handling in `PanguTextFactory2` during injection to avoid interrupting the entire process during `View` initialization
 - Removed duplicate injection warning logs, now duplicate injections of `PanguText` will have no effect
