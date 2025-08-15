@@ -26,9 +26,9 @@ import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
 import com.highcapable.betterandroid.system.extension.tool.AndroidVersion
-import com.highcapable.kavaref.KavaRef.Companion.asResolver
 import com.highcapable.pangutext.android.PanguText
 import com.highcapable.pangutext.android.PanguTextConfig
+import com.highcapable.pangutext.android.core.TextViewDelegate.Companion.delegate
 import com.highcapable.pangutext.android.extension.injectRealTimePanguText
 
 /**
@@ -40,15 +40,7 @@ import com.highcapable.pangutext.android.extension.injectRealTimePanguText
  */
 class PanguTextWatcher internal constructor(private val base: TextView, private val config: PanguTextConfig) : TextWatcher {
 
-    /**
-     * The text watchers of the base [TextView].
-     * @return [ArrayList]<[TextWatcher]>.
-     */
-    private val textWatchers 
-        get() = base.asResolver().optional(silent = true).firstFieldOrNull {
-            name = "mListeners"
-            superclass()
-        }?.getQuietly<ArrayList<TextWatcher>>()
+    private val delegate = base.delegate
 
     /**
      * Whether to automatically re-measure the text width after processing.
@@ -62,20 +54,12 @@ class PanguTextWatcher internal constructor(private val base: TextView, private 
         editable?.let { PanguText.format(base.resources, base.textSize, it, config) }
         if (!isAutoRemeasureText) return
 
-        val currentWatchers = mutableListOf<TextWatcher>()
-        textWatchers?.also {
-            currentWatchers.addAll(it)
-            // Avoid triggering events again during processing.
-            it.clear()
+        delegate.withoutTextWatchers {
+            // Reset the text to trigger remeasurement.
+            base.text = editable
         }
-
-        // Reset the text to trigger remeasurement.
-        base.text = editable
-        // Re-add to continue listening to text changes.
-        textWatchers?.addAll(currentWatchers)
-
-        currentWatchers.clear()
     }
+
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 }
