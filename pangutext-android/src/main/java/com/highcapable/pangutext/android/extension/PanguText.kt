@@ -33,6 +33,7 @@ import com.highcapable.pangutext.android.PanguText
 import com.highcapable.pangutext.android.PanguTextConfig
 import com.highcapable.pangutext.android.R
 import com.highcapable.pangutext.android.core.PanguTextWatcher
+import com.highcapable.pangutext.android.core.TextViewDelegate.Companion.delegate
 
 /**
  * Create a new instance of [PanguTextConfig].
@@ -57,9 +58,11 @@ fun PanguTextConfig(copyFromGlobal: Boolean = true, body: PanguTextConfig.() -> 
 @JvmOverloads
 fun TextView.injectPanguText(injectHint: Boolean = true, config: PanguTextConfig = PanguText.globalConfig) {
     if (!config.isEnabled) return
-
-    setTextWithPangu(this.text, config)
-    if (injectHint) setHintWithPangu(this.hint, config)
+    
+    this.delegate.withoutTextWatchers {
+        setTextWithPangu(this.text, config)
+        if (injectHint) setHintWithPangu(this.hint, config)
+    }
 }
 
 /**
