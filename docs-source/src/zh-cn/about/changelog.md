@@ -10,7 +10,11 @@
 
 ## pangutext-android
 
-### 1.0.3 | 2025.08.03 &ensp;<Badge type="tip" text="最新" vertical="middle" />
+### 1.0.4 | 2025.08.16 &ensp;<Badge type="tip" text="最新" vertical="middle" />
+
+- 在执行 `injectPanguText` 时排除 `TextView` 自身设置的 `TextWatcher` 防止重复触发 `doOnTextChanged`
+
+### 1.0.3 | 2025.08.03 &ensp;<Badge type="warning" text="过旧" vertical="middle" />
 
 - 将 Java 反射相关行为由 [YukiReflection](https://github.com/HighCapable/YukiReflection) 迁移至 [KavaRef](https://github.com/HighCapable/KavaRef)
 - 其它已知问题修复

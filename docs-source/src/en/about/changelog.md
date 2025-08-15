@@ -18,7 +18,11 @@ Time zone of version release date: **UTC+8**
 
 ## pangutext-android
 
-### 1.0.3 | 2025.08.03 &ensp;<Badge type="tip" text="latest" vertical="middle" />
+### 1.0.4 | 2025.08.16 &ensp;<Badge type="tip" text="latest" vertical="middle" />
+
+- Exclude `TextView`'s own `TextWatcher` set during `injectPanguText` execution to prevent repeated triggering of `doOnTextChanged`
+
+### 1.0.3 | 2025.08.03 &ensp;<Badge type="warning" text="stale" vertical="middle" />
 
 - Migrate Java reflection-related behavior from [YukiReflection](https://github.com/HighCapable/YukiReflection) to [KavaRef](https://github.com/HighCapable/KavaRef)
 - Other known issues fixed
