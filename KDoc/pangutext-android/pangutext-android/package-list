@@ -1,0 +1,41 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.highcapable.pangutext.android.core////PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.core/index.html
+$dokka.location:com.highcapable.pangutext.android.core/PanguTextView///PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.core/-pangu-text-view/index.html
+$dokka.location:com.highcapable.pangutext.android.core/PanguTextView/configurePanguText/#com.highcapable.pangutext.android.PanguTextConfig/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.core/-pangu-text-view/configure-pangu-text.html
+$dokka.location:com.highcapable.pangutext.android.core/PanguTextWatcher///PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.core/-pangu-text-watcher/index.html
+$dokka.location:com.highcapable.pangutext.android.core/PanguTextWatcher/afterTextChanged/#android.text.Editable?/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.core/-pangu-text-watcher/after-text-changed.html
+$dokka.location:com.highcapable.pangutext.android.core/PanguTextWatcher/beforeTextChanged/#kotlin.CharSequence?#kotlin.Int#kotlin.Int#kotlin.Int/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.core/-pangu-text-watcher/before-text-changed.html
+$dokka.location:com.highcapable.pangutext.android.core/PanguTextWatcher/onTextChanged/#kotlin.CharSequence?#kotlin.Int#kotlin.Int#kotlin.Int/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.core/-pangu-text-watcher/on-text-changed.html
+$dokka.location:com.highcapable.pangutext.android.extension////PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.extension/index.html
+$dokka.location:com.highcapable.pangutext.android.extension//PanguTextConfig/#kotlin.Boolean#kotlin.Function1[com.highcapable.pangutext.android.PanguTextConfig,kotlin.Unit]/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.extension/-pangu-text-config.html
+$dokka.location:com.highcapable.pangutext.android.extension//injectPanguText/android.widget.TextView#kotlin.Boolean#com.highcapable.pangutext.android.PanguTextConfig/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.extension/inject-pangu-text.html
+$dokka.location:com.highcapable.pangutext.android.extension//injectRealTimePanguText/android.widget.TextView#kotlin.Boolean#com.highcapable.pangutext.android.PanguTextConfig/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.extension/inject-real-time-pangu-text.html
+$dokka.location:com.highcapable.pangutext.android.extension//setHintWithPangu/android.widget.TextView#kotlin.CharSequence?#com.highcapable.pangutext.android.PanguTextConfig/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.extension/set-hint-with-pangu.html
+$dokka.location:com.highcapable.pangutext.android.extension//setTextWithPangu/android.widget.TextView#kotlin.CharSequence?#com.highcapable.pangutext.android.PanguTextConfig/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.extension/set-text-with-pangu.html
+$dokka.location:com.highcapable.pangutext.android.factory////PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.factory/index.html
+$dokka.location:com.highcapable.pangutext.android.factory/PanguTextFactory2.Companion///PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.factory/-pangu-text-factory2/-companion/index.html
+$dokka.location:com.highcapable.pangutext.android.factory/PanguTextFactory2.Companion/inject/#android.content.Context/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.factory/-pangu-text-factory2/-companion/inject.html
+$dokka.location:com.highcapable.pangutext.android.factory/PanguTextFactory2.Companion/inject/#android.view.LayoutInflater/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.factory/-pangu-text-factory2/-companion/inject.html
+$dokka.location:com.highcapable.pangutext.android.factory/PanguTextFactory2///PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.factory/-pangu-text-factory2/index.html
+$dokka.location:com.highcapable.pangutext.android.factory/PanguTextFactory2/onCreateView/#android.view.View?#kotlin.String#android.content.Context#android.util.AttributeSet/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.factory/-pangu-text-factory2/on-create-view.html
+$dokka.location:com.highcapable.pangutext.android.factory/PanguTextFactory2/onCreateView/#kotlin.String#android.content.Context#android.util.AttributeSet/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.factory/-pangu-text-factory2/on-create-view.html
+$dokka.location:com.highcapable.pangutext.android.factory/PanguTextPatcher///PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.factory/-pangu-text-patcher/index.html
+$dokka.location:com.highcapable.pangutext.android.factory/PanguTextPatcher/patch/#android.view.View#com.highcapable.pangutext.android.PanguTextConfig/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android.factory/-pangu-text-patcher/patch.html
+$dokka.location:com.highcapable.pangutext.android////PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android/index.html
+$dokka.location:com.highcapable.pangutext.android/PanguText///PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android/-pangu-text/index.html
+$dokka.location:com.highcapable.pangutext.android/PanguText/format/#android.content.res.Resources#kotlin.Float#kotlin.CharSequence#com.highcapable.pangutext.android.PanguTextConfig/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android/-pangu-text/format.html
+$dokka.location:com.highcapable.pangutext.android/PanguText/format/#kotlin.CharSequence#kotlin.Char#com.highcapable.pangutext.android.PanguTextConfig/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android/-pangu-text/format.html
+$dokka.location:com.highcapable.pangutext.android/PanguText/globalConfig/#/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android/-pangu-text/global-config.html
+$dokka.location:com.highcapable.pangutext.android/PanguTextConfig///PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android/-pangu-text-config/index.html
+$dokka.location:com.highcapable.pangutext.android/PanguTextConfig/cjkSpacingRatio/#/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android/-pangu-text-config/cjk-spacing-ratio.html
+$dokka.location:com.highcapable.pangutext.android/PanguTextConfig/copy/#kotlin.Function1[com.highcapable.pangutext.android.PanguTextConfig,kotlin.Unit]/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android/-pangu-text-config/copy.html
+$dokka.location:com.highcapable.pangutext.android/PanguTextConfig/excludePatterns/#/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android/-pangu-text-config/exclude-patterns.html
+$dokka.location:com.highcapable.pangutext.android/PanguTextConfig/isAutoRemeasureText/#/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android/-pangu-text-config/is-auto-remeasure-text.html
+$dokka.location:com.highcapable.pangutext.android/PanguTextConfig/isEnabled/#/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android/-pangu-text-config/is-enabled.html
+$dokka.location:com.highcapable.pangutext.android/PanguTextConfig/isProcessedSpanned/#/PointingToDeclaration/pangutext-android/com.highcapable.pangutext.android/-pangu-text-config/is-processed-spanned.html
+com.highcapable.pangutext.android
+com.highcapable.pangutext.android.core
+com.highcapable.pangutext.android.extension
+com.highcapable.pangutext.android.factory
+
