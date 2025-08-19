@@ -39,7 +39,7 @@ import kotlin.math.round
  * Pangu span with margin.
  * @param margin the margin size (px).
  */
-internal class PanguMarginSpan(@Px val margin: Int) : ReplacementSpan() {
+internal class PanguMarginSpan(@param:Px val margin: Int) : ReplacementSpan() {
 
     internal companion object {
 
