@@ -1,6 +1,8 @@
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
     autowire(libs.plugins.android.application) apply false
@@ -46,6 +48,19 @@ libraryProjects {
                 .resolve(project.name)
             if (docsDir.exists()) docsDir.deleteRecursively() else docsDir.mkdirs()
             layout.buildDirectory.dir("dokka/html").get().asFile.copyRecursively(docsDir)
+        }
+    }
+}
+
+allprojects {
+    tasks.withType<KotlinJvmCompile>().configureEach {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+            freeCompilerArgs.addAll(
+                "-Xno-param-assertions",
+                "-Xno-call-assertions",
+                "-Xno-receiver-assertions"
+            )
         }
     }
 }
