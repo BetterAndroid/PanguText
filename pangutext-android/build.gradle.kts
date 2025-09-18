@@ -36,6 +36,7 @@ dependencies {
     implementation(com.highcapable.betterandroid.system.extension)
     implementation(androidx.core.core.ktx)
     implementation(androidx.appcompat.appcompat)
+
     testImplementation(junit.junit)
     androidTestImplementation(androidx.test.ext.junit)
     androidTestImplementation(androidx.test.espresso.espresso.core)

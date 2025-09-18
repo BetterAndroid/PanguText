@@ -25,6 +25,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     buildFeatures {
         buildConfig = true
         viewBinding = true
@@ -33,6 +34,7 @@ android {
 
 dependencies {
     implementation(projects.pangutextAndroid)
+
     implementation(com.highcapable.betterandroid.ui.component)
     implementation(com.highcapable.betterandroid.ui.component.adapter)
     implementation(com.highcapable.betterandroid.ui.extension)
@@ -41,6 +43,7 @@ dependencies {
     implementation(androidx.appcompat.appcompat)
     implementation(com.google.android.material.material)
     implementation(androidx.constraintlayout.constraintlayout)
+
     testImplementation(junit.junit)
     androidTestImplementation(androidx.test.ext.junit)
     androidTestImplementation(androidx.test.espresso.espresso.core)
