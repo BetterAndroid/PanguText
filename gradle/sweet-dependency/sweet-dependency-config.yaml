@@ -19,7 +19,7 @@ plugins:
     version-ref: com.android.application
   org.jetbrains.kotlin.android:
     alias: kotlin-android
-    version: 2.2.10
+    version: 2.2.20
   org.jetbrains.dokka:
     alias: kotlin-dokka
     version: 1.9.20
@@ -40,7 +40,7 @@ libraries:
       version: 1.0.3
   com.highcapable.kavaref:
     kavaref-core:
-      version: 1.0.1
+      version: 1.0.2
     kavaref-extension:
       version: 1.0.1
   androidx.core:
