@@ -8,21 +8,34 @@ pluginManagement {
     }
 }
 
-plugins {
-    id("com.highcapable.sweetdependency") version "1.0.4"
-    id("com.highcapable.sweetproperty") version "1.0.8"
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://raw.githubusercontent.com/HighCapable/maven-repository/main/repository/releases")
+    }
 }
 
-sweetProperty {
+plugins {
+    id("com.highcapable.gropify") version "1.0.0"
+}
+
+gropify {
     rootProject {
-        all {
-            isEnable = false
+        common {
+            isEnabled = false
         }
     }
 
-    project(":pangutext-android") {
-        sourcesCode {
-            isEnableRestrictedAccess = true
+    projects(":pangutext-android") {
+        android {
+            isRestrictedAccessEnabled = true
+        }
+    }
+    projects(":demo-android") {
+        android {
+            isEnabled = false
         }
     }
 }
