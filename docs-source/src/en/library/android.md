@@ -12,24 +12,7 @@ This is the core dependency for the Android platform. When using `PanguText` on 
 
 You can add this module to your project using the following method.
 
-### SweetDependency (Recommended)
-
-Add dependency in your project's `SweetDependency` configuration file.
-
-```yaml
-libraries:
-  com.highcapable.pangutext:
-    pangutext-android:
-      version: +
-```
-
-Configure dependency in your project's `build.gradle.kts`.
-
-```kotlin
-implementation(com.highcapable.pangutext.pangutext.android)
-```
-
-### Version Catalog
+### Version Catalog (Recommended)
 
 Add dependency in your project's `gradle/libs.versions.toml`.
 
