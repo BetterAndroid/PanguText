@@ -24,9 +24,9 @@ package com.highcapable.pangutext.demo.ui
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import androidx.core.text.HtmlCompat
-import com.highcapable.betterandroid.ui.component.insets.factory.handleOnWindowInsetsChanged
-import com.highcapable.betterandroid.ui.component.insets.factory.setInsetsPadding
 import com.highcapable.betterandroid.ui.extension.component.startActivity
+import com.highcapable.betterandroid.ui.extension.insets.factory.handleOnWindowInsetsChanged
+import com.highcapable.betterandroid.ui.extension.insets.factory.setInsetsPadding
 import com.highcapable.pangutext.demo.databinding.ActivityMainBinding
 import com.highcapable.pangutext.demo.ui.base.BaseActivity
 
