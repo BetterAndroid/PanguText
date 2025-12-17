@@ -49,7 +49,7 @@ import com.highcapable.pangutext.android.generated.PangutextAndroidProperties
 internal object PanguWidget {
 
     /** The text regex split symbol. */
-    private const val TEXT_REGEX_SPLITE_SYMBOL = "|@|"
+    private const val TEXT_REGEX_SPLIT_SYMBOL = "|@|"
 
     /**
      * Process the widget by the given name.
@@ -118,7 +118,7 @@ internal object PanguWidget {
             val cjkSpacingRatio = getFloatOrNull(R.styleable.PanguTextHelper_panguText_cjkSpacingRatio)
 
             val excludePatterns = getStringOrNull(R.styleable.PanguTextHelper_panguText_excludePatterns)
-                ?.split(TEXT_REGEX_SPLITE_SYMBOL)?.mapNotNull { regex ->
+                ?.split(TEXT_REGEX_SPLIT_SYMBOL)?.mapNotNull { regex ->
                     runCatching { regex.toRegex() }.onFailure { th ->
                         Log.e(PangutextAndroidProperties.PROJECT_NAME, "Invalid exclude pattern of $instance: $regex", th)
                     }.getOrNull()

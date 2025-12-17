@@ -19,7 +19,7 @@
  *
  * This file is created by fankes on 2025/1/20.
  */
-@file:Suppress("RegExpRedundantEscape", "RegExpSimplifiable")
+@file:Suppress("RegExpRedundantEscape", "RegExpSimplifiable", "CanConvertToMultiDollarString", "CanUnescapeDollarLiteral")
 
 package com.highcapable.pangutext.android.core
 

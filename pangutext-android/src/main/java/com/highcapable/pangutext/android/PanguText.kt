@@ -32,6 +32,7 @@ import android.text.style.CharacterStyle
 import android.widget.TextView
 import androidx.annotation.Px
 import com.highcapable.kavaref.extension.classOf
+import com.highcapable.pangutext.android.PanguText.PH
 import com.highcapable.pangutext.android.core.PanguMarginSpan
 import com.highcapable.pangutext.android.core.PanguPatterns
 import com.highcapable.pangutext.android.extension.injectPanguText
@@ -155,7 +156,7 @@ object PanguText {
 
         // Find the [PanguMarginSpan.Placeholder] subscript in [builder] and use [PanguMarginSpan] to set it to [original].
         val builderSpans = builder.getSpans(0, builder.length, classOf<PanguMarginSpan.Placeholder>())
-        val spannable = if (this !is Spannable) SpannableString(this) else this
+        val spannable = this as? Spannable ?: SpannableString(this)
 
         // Add new [PanguMarginSpan].
         builderSpans.forEach {

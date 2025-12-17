@@ -44,10 +44,10 @@ internal fun CharSequence.replaceAndPreserveSpans(regex: Regex, replacement: Str
 
         val matcher = regex.toPattern().matcher(this)
         val excludeMatchers = excludePatterns.map { it.toPattern().matcher(this) }
-        val excludeIndexs = mutableSetOf<Pair<Int, Int>>()
+        val excludeIndexes = mutableSetOf<Pair<Int, Int>>()
 
         excludeMatchers.forEach {
-            while (it.find()) excludeIndexs.add(it.start() to it.end())
+            while (it.find()) excludeIndexes.add(it.start() to it.end())
         }
 
         var offset = 0
@@ -59,7 +59,7 @@ internal fun CharSequence.replaceAndPreserveSpans(regex: Regex, replacement: Str
 
             // Skip the replacement if the matched range is excluded.
             // The character range offset is adjusted by 1 to avoid the exclusion of the matched range.
-            if (excludeIndexs.any { it.first <= start + 1 && it.second >= end - 1 }) continue
+            if (excludeIndexes.any { it.first <= start + 1 && it.second >= end - 1 }) continue
 
             // Perform the replacement.
             val replacementText = matcher.buildReplacementText(replacement)

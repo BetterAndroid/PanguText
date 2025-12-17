@@ -25,7 +25,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
-import com.highcapable.betterandroid.system.extension.tool.AndroidVersion
+import com.highcapable.betterandroid.system.extension.utils.AndroidVersion
 import com.highcapable.pangutext.android.PanguText
 import com.highcapable.pangutext.android.PanguTextConfig
 import com.highcapable.pangutext.android.core.TextViewDelegate.Companion.delegate

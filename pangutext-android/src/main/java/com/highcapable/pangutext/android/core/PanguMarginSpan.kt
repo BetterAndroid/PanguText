@@ -39,7 +39,7 @@ import kotlin.math.round
  * Pangu span with margin.
  * @param margin the margin size (px).
  */
-internal class PanguMarginSpan(@param:Px val margin: Int) : ReplacementSpan() {
+internal class PanguMarginSpan(@field:Px val margin: Int) : ReplacementSpan() {
 
     internal companion object {
 
@@ -71,25 +71,25 @@ internal class PanguMarginSpan(@param:Px val margin: Int) : ReplacementSpan() {
 
     override fun draw(canvas: Canvas, text: CharSequence?, start: Int, end: Int, x: Float, top: Int, y: Int, bottom: Int, paint: Paint) {
         if (text is Spanned) text.getSpans<Any>(start, end).forEach { span ->
-            when {
-                span is BackgroundColorSpan -> {
+            when (span) {
+                is BackgroundColorSpan -> {
                     // Get background color.
                     val color = span.backgroundColor
                     val originalColor = paint.color
-                    
+
                     // Save the current [paint] color.
                     paint.color = color
-                    
+
                     // Get the width of the text.
                     val textWidth = paint.measureText(text, start, end)
-                    
+
                     // Draw background rectangle.
                     canvas.drawRect(x, top.toFloat(), x + textWidth + margin, bottom.toFloat(), paint)
-                    
+
                     // Restore original color.
                     paint.color = originalColor
                 }
-                span is CharacterStyle && paint is TextPaint -> span.updateDrawState(paint)
+                is CharacterStyle if paint is TextPaint -> span.updateDrawState(paint)
             }
         }
 
