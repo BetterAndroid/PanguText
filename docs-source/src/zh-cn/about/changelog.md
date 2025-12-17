@@ -10,7 +10,12 @@
 
 ## pangutext-android
 
-### 1.0.4 | 2025.08.16 &ensp;<Badge type="tip" text="最新" vertical="middle" />
+### 1.0.5 | 2025.12.17 &ensp;<Badge type="tip" text="最新" vertical="middle" />
+
+- 适配 Kotlin 2.2+
+- 适配 `BetterAndroid` 新特性
+
+### 1.0.4 | 2025.08.16 &ensp;<Badge type="warning" text="过旧" vertical="middle" />
 
 - 在执行 `injectPanguText` 时排除 `TextView` 自身设置的 `TextWatcher` 防止重复触发 `doOnTextChanged`
 

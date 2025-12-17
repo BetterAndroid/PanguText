@@ -18,7 +18,12 @@ Time zone of version release date: **UTC+8**
 
 ## pangutext-android
 
-### 1.0.4 | 2025.08.16 &ensp;<Badge type="tip" text="latest" vertical="middle" />
+### 1.0.5 | 2025.12.17 &ensp;<Badge type="tip" text="latest" vertical="middle" />
+
+- Adapted to Kotlin 2.2+
+- Adapted to new features of `BetterAndroid`
+
+### 1.0.4 | 2025.08.16 &ensp;<Badge type="warning" text="stale" vertical="middle" />
 
 - Exclude `TextView`'s own `TextWatcher` set during `injectPanguText` execution to prevent repeated triggering of `doOnTextChanged`
 
