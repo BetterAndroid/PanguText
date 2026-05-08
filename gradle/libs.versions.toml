@@ -1,15 +1,16 @@
 [versions]
-agp = "8.13.2"
-kotlin = "2.2.21"
-# noinspection NewerVersionAvailable
-dokka = "1.9.20"
-maven-publish = "0.35.0"
+agp = "9.2.1"
+dokka = "2.2.0"
+maven-publish = "0.36.0"
 betterandroid-ui-component = "1.0.10"
 betterandroid-ui-component-adapter = "1.0.1"
 betterandroid-ui-extension = "1.0.9"
 betterandroid-system-extension = "1.0.4"
 kavaref-core = "1.0.2"
 kavaref-extension = "1.0.2"
+# The project current support min sdk version is 21,
+# suppress the warning about using newer versions of dependencies that may require higher min sdk version.
+# noinspection GradleDependency
 androidx-core = "1.17.0"
 androidx-appcompat = "1.7.1"
 # noinspection GradleDependency
@@ -22,7 +23,6 @@ androidx-test-espresso-core = "3.7.0"
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
 
