@@ -39,14 +39,17 @@ Modify the Java version of Kotlin in your project's `build.gradle.kts` to 17 or 
 
 > Kotlin DSL
 
-```kt
+```kotlin
 android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
+}
+
+tasks.withType<KotlinJvmCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 ```

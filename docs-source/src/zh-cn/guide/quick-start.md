@@ -36,14 +36,17 @@ repositories {
 
 在你的项目 `build.gradle.kts` 中修改 Kotlin 的 Java 版本为 17 及以上。
 
-```kt
+```kotlin
 android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
+}
+
+tasks.withType<KotlinJvmCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 ```
