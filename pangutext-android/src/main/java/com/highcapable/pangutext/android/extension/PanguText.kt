@@ -95,7 +95,6 @@ fun TextView.injectRealTimePanguText(injectHint: Boolean = true, config: PanguTe
         if (self.hint != currentHint)
             self.setHintWithPangu(self.hint, config)
 
-        @Suppress("AssignedValueIsNeverRead")
         currentHint = self.hint
     }
 
