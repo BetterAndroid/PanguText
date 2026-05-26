@@ -67,5 +67,5 @@ Click the corresponding module below to view detailed feature descriptions.
 
 You can find some examples below. Check out the corresponding demo projects to get a better understanding of how these features work and quickly select the functionality you need.
 
-- [Android](repo://tree/main/demo-android)
-- [Jetpack Compose (Coming soon)](repo://tree/main/demo-compose)
+- [Android](repo://tree/main/samples/demo-android)
+- [Jetpack Compose (Coming soon)](repo://tree/main/samples/demo-compose)

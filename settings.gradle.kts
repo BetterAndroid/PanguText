@@ -28,19 +28,20 @@ gropify {
         }
     }
 
+    projects(":samples:demo-android") {
+        android {
+            isEnabled = false
+        }
+    }
+
     projects(":pangutext-android") {
         android {
             isRestrictedAccessEnabled = true
-        }
-    }
-    projects(":demo-android") {
-        android {
-            isEnabled = false
         }
     }
 }
 
 rootProject.name = "PanguText"
 
-include(":demo-android")
+include(":samples:demo-android")
 include(":pangutext-android")

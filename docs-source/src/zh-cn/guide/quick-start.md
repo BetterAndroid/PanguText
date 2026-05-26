@@ -64,5 +64,5 @@ tasks.withType<KotlinJvmCompile>().configureEach {
 
 你可以在下方找到一些示例，查看对应的演示项目来更好地了解这些功能的运作方式，快速地挑选出你需要的功能。
 
-- [Android](repo://tree/main/demo-android)
-- [Jetpack Compose (敬请期待)](repo://tree/main/demo-compose)
+- [Android](repo://tree/main/samples/demo-android)
+- [Jetpack Compose (敬请期待)](repo://tree/main/samples/demo-compose)

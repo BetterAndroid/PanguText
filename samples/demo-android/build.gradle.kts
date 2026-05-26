@@ -3,15 +3,15 @@ plugins {
 }
 
 android {
-    namespace = gropify.project.app.packageName
+    namespace = gropify.project.samples.demo.android.packageName
     compileSdk = gropify.project.android.compileSdk
 
     defaultConfig {
-        applicationId = gropify.project.app.packageName
+        applicationId = gropify.project.samples.demo.android.packageName
         minSdk = gropify.project.android.minSdk
         targetSdk = gropify.project.android.targetSdk
-        versionName = gropify.project.app.versionName
-        versionCode = gropify.project.app.versionCode
+        versionName = gropify.project.samples.demo.android.versionName
+        versionCode = gropify.project.samples.demo.android.versionCode
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,14 +30,17 @@ android {
 dependencies {
     implementation(projects.pangutextAndroid)
 
+    implementation(platform(libs.betterandroid.android.bom))
     implementation(libs.betterandroid.ui.component)
     implementation(libs.betterandroid.ui.component.adapter)
     implementation(libs.betterandroid.ui.extension)
     implementation(libs.betterandroid.system.extension)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
+
+    implementation(libs.material)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
