@@ -3,8 +3,7 @@ agp = "9.2.1"
 dokka = "2.2.0"
 maven-publish = "0.36.0"
 betterandroid-android-bom = "1.1.0"
-kavaref-core = "1.0.2"
-kavaref-extension = "1.0.2"
+kavaref-bom = "1.0.3"
 # The project current support min sdk version is 21,
 # suppress the warning about using newer versions of dependencies that may require higher min sdk version.
 # noinspection GradleDependency
@@ -29,8 +28,9 @@ betterandroid-ui-component = { module = "com.highcapable.betterandroid:ui-compon
 betterandroid-ui-component-adapter = { module = "com.highcapable.betterandroid:ui-component-adapter" }
 betterandroid-ui-extension = { module = "com.highcapable.betterandroid:ui-extension" }
 betterandroid-system-extension = { module = "com.highcapable.betterandroid:system-extension" }
-kavaref-core = { module = "com.highcapable.kavaref:kavaref-core", version.ref = "kavaref-core" }
-kavaref-extension = { module = "com.highcapable.kavaref:kavaref-extension", version.ref = "kavaref-extension" }
+kavaref-bom = { group = "com.highcapable.kavaref", name = "kavaref-bom", version.ref = "kavaref-bom" }
+kavaref-core = { group = "com.highcapable.kavaref", name = "kavaref-core" }
+kavaref-extension = { group = "com.highcapable.kavaref", name = "kavaref-extension" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
