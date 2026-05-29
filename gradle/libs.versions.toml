@@ -2,7 +2,7 @@
 agp = "9.2.1"
 dokka = "2.2.0"
 maven-publish = "0.36.0"
-betterandroid-android-bom = "1.1.0"
+betterandroid-android-bom = "1.1.1"
 kavaref-bom = "1.0.3"
 # The project current support min sdk version is 21,
 # suppress the warning about using newer versions of dependencies that may require higher min sdk version.
