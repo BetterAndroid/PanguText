@@ -64,8 +64,8 @@ object PanguText {
      * If the current [text] is of type [Spannable], it will return the original unmodified object,
      * otherwise it will return the wrapped object [SpannableString] after.
      *
-     * - Note: Processed [Spanned] text is in experimental stage and may not be fully supported,
-     *   if the text is not processed correctly, please disable [PanguTextConfig.isProcessedSpanned].
+     * - Note: Processing [Spanned] text is enabled by default.
+     *   If you want to skip already styled text, please disable [PanguTextConfig.isProcessedSpanned].
      * @see PanguTextConfig.isProcessedSpanned
      * @see PanguTextConfig.cjkSpacingRatio
      * @see TextView.injectPanguText
@@ -94,8 +94,8 @@ object PanguText {
      * This is the string replacement solution. It keeps the regular-expression replacement chain
      * and also performs text corrections when the content itself needs to be adjusted.
      *
-     * - Note: Processed [Spanned] text is in experimental stage and may not be fully supported,
-     *   if the text is not processed correctly, please disable [PanguTextConfig.isProcessedSpanned].
+     * - Note: Processing [Spanned] text is enabled by default.
+     *   If you want to skip already styled text, please disable [PanguTextConfig.isProcessedSpanned].
      * @see PanguTextConfig.isProcessedSpanned
      * @param text text to be formatted.
      * @param whiteSpace the spacing character, default is 'U+200A'.

@@ -23,6 +23,7 @@ package com.highcapable.pangutext.android
 
 import android.text.Spanned
 import android.widget.TextView
+import com.highcapable.pangutext.android.PanguTextConfig.Companion.DEFAULT_CJK_SPACING_RATIO
 import java.io.Serializable
 
 /**
@@ -47,10 +48,10 @@ class PanguTextConfig internal constructor() : Serializable {
     var isEnabled = true
 
     /**
-     * Processed [Spanned] text (experimental).
+     * Process [Spanned] text.
      *
-     * - Note: This feature is in experimental stage and may not be fully supported,
-     *   if the text is not processed correctly, please disable this feature.
+     * This option is enabled by default.
+     * Disable it if you want [PanguText] to skip already styled text and keep the original text unchanged.
      */
     var isProcessedSpanned = true
 
