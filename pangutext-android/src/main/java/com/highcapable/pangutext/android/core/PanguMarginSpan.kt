@@ -41,7 +41,7 @@ import kotlin.math.round
  */
 internal class PanguMarginSpan(@field:Px val margin: Int) : ReplacementSpan() {
 
-    internal companion object {
+    companion object {
 
         /**
          * Create a new instance of [PanguMarginSpan].
@@ -50,7 +50,7 @@ internal class PanguMarginSpan(@field:Px val margin: Int) : ReplacementSpan() {
          * @param ratio the CJK spacing ratio.
          * @return [PanguMarginSpan]
          */
-        internal fun create(resources: Resources, @Px textSize: Float, ratio: Float) =
+        fun create(resources: Resources, @Px textSize: Float, ratio: Float) =
             PanguMarginSpan(getSpanMargin(resources, textSize, ratio))
 
         /**

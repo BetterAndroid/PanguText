@@ -86,7 +86,7 @@ internal object PanguPatterns {
      * @param excludePatterns the regular expression to exclude from replacement.
      * @return [CharSequence]
      */
-    internal fun matchAndReplace(text: CharSequence, whiteSpace: Char, vararg excludePatterns: Regex) =
+    fun matchAndReplace(text: CharSequence, whiteSpace: Char, vararg excludePatterns: Regex) =
         if (text.containsAnyCjkAndSpacingCandidate()) {
             val excludeState = ExcludedRanges.from(text, excludePatterns)
             text.replaceAndPreserveSpans(DOTS_CJK, "$1$whiteSpace$2", excludeState)
