@@ -23,13 +23,15 @@ package com.highcapable.pangutext.android.core
 
 import android.content.res.Resources
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.text.Spanned
 import android.text.TextPaint
-import android.text.style.BackgroundColorSpan
 import android.text.style.CharacterStyle
+import android.text.style.MetricAffectingSpan
 import android.text.style.ReplacementSpan
 import androidx.annotation.Px
+import androidx.core.graphics.withTranslation
 import androidx.core.text.getSpans
 import com.highcapable.betterandroid.ui.extension.component.base.toDp
 import com.highcapable.betterandroid.ui.extension.component.base.toPx
@@ -42,6 +44,8 @@ import kotlin.math.round
 internal class PanguMarginSpan(@field:Px val margin: Int) : ReplacementSpan() {
 
     companion object {
+
+        private const val DECORATION_SPACER = " "
 
         /**
          * Create a new instance of [PanguMarginSpan].
@@ -67,32 +71,64 @@ internal class PanguMarginSpan(@field:Px val margin: Int) : ReplacementSpan() {
     override fun getContentDescription() = "PanguMarginSpan"
 
     override fun getSize(paint: Paint, text: CharSequence?, start: Int, end: Int, fm: Paint.FontMetricsInt?) =
-        (paint.measureText(text, start, end) + margin).toInt()
+        (paint.buildStyledPaint(text, start, end, includeMeasureState = true).measureText(text, start, end) + margin).toInt()
 
     override fun draw(canvas: Canvas, text: CharSequence?, start: Int, end: Int, x: Float, top: Int, y: Int, bottom: Int, paint: Paint) {
-        if (text is Spanned) text.getSpans<Any>(start, end).forEach { span ->
-            when (span) {
-                is BackgroundColorSpan -> {
-                    // Get background color.
-                    val color = span.backgroundColor
-                    val originalColor = paint.color
+        val workingPaint = paint.buildStyledPaint(text, start, end, includeMeasureState = false)
+        val textWidth = text?.let { workingPaint.measureText(it, start, end) } ?: 0f
 
-                    // Save the current [paint] color.
-                    paint.color = color
-
-                    // Get the width of the text.
-                    val textWidth = paint.measureText(text, start, end)
-
-                    // Draw background rectangle.
-                    canvas.drawRect(x, top.toFloat(), x + textWidth + margin, bottom.toFloat(), paint)
-
-                    // Restore original color.
-                    paint.color = originalColor
-                }
-                is CharacterStyle if paint is TextPaint -> span.updateDrawState(paint)
-            }
+        if (workingPaint is TextPaint && workingPaint.bgColor != Color.TRANSPARENT) {
+            val originalColor = workingPaint.color
+            workingPaint.color = workingPaint.bgColor
+            canvas.drawRect(x, top.toFloat(), x + textWidth + margin, bottom.toFloat(), workingPaint)
+            workingPaint.color = originalColor
         }
 
-        text?.let { canvas.drawText(it, start, end, x, y.toFloat(), paint) }
+        text?.let { canvas.drawText(it, start, end, x, y.toFloat(), workingPaint) }
+        drawDecorationSpacer(canvas, x + textWidth, y.toFloat(), workingPaint)
+    }
+
+    /**
+     * Build a styled paint for the current range.
+     * @receiver [Paint]
+     * @param text the current text.
+     * @param start the range start.
+     * @param end the range end.
+     * @param includeMeasureState whether to include measure-affecting styles.
+     * @return [Paint]
+     */
+    private fun Paint.buildStyledPaint(text: CharSequence?, start: Int, end: Int, includeMeasureState: Boolean): Paint {
+        val workingPaint = if (this is TextPaint) TextPaint(this) else Paint(this)
+        if (text !is Spanned || workingPaint !is TextPaint) return workingPaint
+
+        text.getSpans<Any>(start, end).forEach { span ->
+            if (span === this@PanguMarginSpan || span is ReplacementSpan) return@forEach
+
+            if (includeMeasureState && span is MetricAffectingSpan) span.updateMeasureState(workingPaint)
+            if (span is CharacterStyle) span.updateDrawState(workingPaint)
+        }
+
+        return workingPaint
+    }
+
+    /**
+     * Draw the decoration spacer in the reserved margin.
+     *
+     * The scaled space keeps underline and strikethrough continuous without changing text content.
+     * @param canvas the current canvas.
+     * @param x the drawing start x.
+     * @param y the drawing baseline y.
+     * @param paint the styled paint.
+     */
+    private fun drawDecorationSpacer(canvas: Canvas, x: Float, y: Float, paint: Paint) {
+        if (margin <= 0 || paint !is TextPaint || (!paint.isUnderlineText && !paint.isStrikeThruText)) return
+
+        val spaceWidth = paint.measureText(DECORATION_SPACER)
+        if (spaceWidth <= 0f) return
+
+        canvas.withTranslation(x, 0f) {
+            scale(margin / spaceWidth, 1f)
+            drawText(DECORATION_SPACER, 0f, y, paint)
+        }
     }
 }
