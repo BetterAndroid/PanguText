@@ -52,8 +52,7 @@ implementation("com.highcapable.pangutext:pangutext-android:<version>")
 
 第一种方案为 `SpannableString`。它会直接扫描原始文本中的字符边界，识别哪些位置需要增加 CJK 间距，并在对应字符上修补 `PanguMarginSpan`，而不实际改动字符串内容或长度。最终渲染依然交由 `TextView` 层完成 (或手动使用 `TextPaint` 基于 `Spanned` 做布局样式处理)。
 
-这种方案同样支持直接处理已经应用了样式的文本 (`Spanned`)，例如通过 `Html.fromHtml` 创建的文本，**但它仍然处于实验性阶段，可能会出现非预期样式错误问题**，
-你可以参考下方的 [个性化配置](#个性化配置) 选择禁用它。
+这种方案同样支持直接处理已经应用了样式的文本 (`Spanned`)，例如通过 `Html.fromHtml` 创建的文本。你也可以参考下方的 [个性化配置](#个性化配置) 关闭此功能。
 
 动态应用 (注入) 功能主要使用的就是 `SpannableString` 方案。它会为 `EditText` 设置一个自定义的 `TextWatcher` 来监听输入状态，当输入状态发生变化时，从 `afterTextChanged` 中获取 `Editable` 并进行格式化。
 
@@ -65,9 +64,6 @@ implementation("com.highcapable.pangutext:pangutext-android:<version>")
 因为 `TextView` 不会在测量时计算文本中的 `Span`，在单行文本中此类问题尤为明显，暂时还没有解决方案，请谨慎配合此类组件使用。
 
 受制于上述问题，通过 `View.measure` 方法计算包含了 `PanguText` 风格的 `TextView` 宽度时也可能会出现错误。
-
-`PanguText` 目前不能处理 `Spanned` 文本中的下划线、删除线这种连续的字符，添加空白间距后线条会中断，
-并且它可能会在一些特殊字符上发生样式错误或样式没有被正确应用，为了稳定性考虑请尽量不要对非常复杂的富文本启用 `PanguText` 或参考下方的 [个性化配置](#个性化配置) 设置 `excludePatterns`。
 
 :::
 
@@ -307,8 +303,8 @@ val config = PanguText.globalConfig
 // 开关，禁用将使所有功能失效
 config.isEnabled = true
 // 处理 Spanned 文本
-// Spanned 文本处理默认启用，但此功能尚处于实验性阶段，
-// 如果发生问题你可以选择禁用，禁用后遇到 Spanned 文本将返回原始文本
+// 默认启用，如需跳过已带样式的文本可将其关闭
+// 关闭后遇到 Spanned 文本将返回原始文本
 config.isProcessedSpanned = true
 // 是否要在处理后自动重新测量文本宽度
 // 注意：[PanguText] 注入文本并更改文本后，[TextView] 的宽度将不会自动计算

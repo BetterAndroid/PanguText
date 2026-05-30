@@ -53,7 +53,7 @@ You can view the KDoc [click here](kdoc://pangutext-android).
 The first solution is `SpannableString`. It scans the original text for character boundaries that need CJK spacing, then applies `PanguMarginSpan` to the corresponding characters without changing the text content or length.
 Rendering is still handled by `TextView` (or manually through `TextPaint` with `Spanned`).
 
-This solution also supports processing already styled text (`Spanned`), such as text created via `Html.fromHtml`. **However, it is still experimental and may have unexpected style errors**. You can refer to the [Personalized Configuration](#personalized-configuration) section below to disable it.
+This solution also supports processing already styled text (`Spanned`), such as text created via `Html.fromHtml`. You can also refer to the [Personalized Configuration](#personalized-configuration) section below to disable it.
 
 The dynamic application (injection) feature mainly uses `SpannableString` solution. It sets a custom `TextWatcher` for `EditText` to monitor input changes and formats the text from `afterTextChanged`.
 
@@ -64,8 +64,6 @@ The second solution directly inserts whitespace characters through the string re
 `PanguText` may conflict with Material components like `TextInputEditText`, `MaterialAutoCompleteTextView`, and `TextInputLayout` when using `setHint`, as `TextView` does not account for `Span` during measurement. This issue is particularly noticeable in single-line text, and there is no solution yet. Use these components cautiously.
 
 Due to the above issue, calculating the width of a `TextView` with `PanguText` style using the `View.measure` method may also result in errors.
-
-`PanguText` currently cannot handle continuous characters like underlines or strikethroughs in `Spanned` text, as the lines will break after adding spacing. It may also cause style errors or fail to apply styles correctly to some special characters. For stability, avoid enabling `PanguText` for very complex rich text or refer to the [Personalized Configuration](#personalized-configuration) section to set `excludePatterns`.
 
 :::
 
@@ -309,8 +307,8 @@ val config = PanguText.globalConfig
 // Enable or disable the feature.
 config.isEnabled = true
 // Process Spanned text.
-// Processing Spanned text is enabled by default, but this feature is experimental.
-// If issues occur, you can disable it. When disabled, Spanned text will return the original text.
+// Enabled by default. Turn it off if you want to skip already styled text.
+// When disabled, Spanned text will return the original text.
 config.isProcessedSpanned = true
 // Whether to automatically re-measure the text width after processing.
 // Note: After [PanguText] injects text and changes the text,
