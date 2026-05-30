@@ -30,50 +30,98 @@ import com.highcapable.pangutext.android.generated.PangutextAndroidProperties
 import java.util.regex.Matcher
 
 /**
+ * The shared exclusion state for regex replacement.
+ * @property ranges the excluded ranges.
+ */
+internal class ExcludedRanges private constructor(private val ranges: MutableList<IntRange>) {
+
+    companion object {
+
+        /**
+         * Build a new [ExcludedRanges] from the current text.
+         * @param text the original text.
+         * @param excludePatterns the regular expression to exclude from replacement.
+         * @return [ExcludedRanges]
+         */
+        fun from(text: CharSequence, excludePatterns: Array<out Regex>): ExcludedRanges {
+            if (excludePatterns.isEmpty()) return ExcludedRanges(mutableListOf())
+
+            val ranges = mutableListOf<IntRange>()
+
+            excludePatterns.forEach { pattern ->
+                val matcher = pattern.toPattern().matcher(text)
+
+                while (matcher.find())
+                    if (matcher.start() < matcher.end()) ranges += matcher.start() until matcher.end()
+            }
+
+            ranges.sortBy { it.first }
+            return ExcludedRanges(ranges)
+        }
+    }
+
+    /**
+     * Check whether the given range is excluded.
+     * @param start the range start.
+     * @param end the range end.
+     * @return [Boolean]
+     */
+    fun contains(start: Int, end: Int) = ranges.any { it.first <= start + 1 && it.last + 1 >= end - 1 }
+
+    /**
+     * Shift all ranges after the current replacement.
+     * @param position the replacement end position before shifting.
+     * @param delta the changed length delta.
+     */
+    fun shiftAfter(position: Int, delta: Int) {
+        if (delta == 0 || ranges.isEmpty()) return
+
+        ranges.indices.forEach { index ->
+            val range = ranges[index]
+            if (range.first >= position) ranges[index] = (range.first + delta) until (range.last + 1 + delta)
+        }
+    }
+}
+
+/**
  * Replace the text content and preserve the original span style.
  * @see CharSequence.replace
  * @receiver [CharSequence]
  * @param regex the regular expression.
  * @param replacement the replacement text.
- * @param excludePatterns the regular expression to exclude from replacement, default is null.
+ * @param excludeState the shared exclusion state.
  * @return [CharSequence]
  */
-internal fun CharSequence.replaceAndPreserveSpans(regex: Regex, replacement: String, vararg excludePatterns: Regex) =
-    runCatching {
-        val builder = SpannableStringBuilder(this)
+internal fun CharSequence.replaceAndPreserveSpans(regex: Regex, replacement: String, excludeState: ExcludedRanges) = runCatching {
+    val builder = SpannableStringBuilder(this)
+    val matcher = regex.toPattern().matcher(this)
+    var offset = 0
 
-        val matcher = regex.toPattern().matcher(this)
-        val excludeMatchers = excludePatterns.map { it.toPattern().matcher(this) }
-        val excludeIndexes = mutableSetOf<Pair<Int, Int>>()
+    // Offset adjustment to account for changes in the text length after replacements.
+    while (matcher.find()) {
+        val start = matcher.start() + offset
+        val end = matcher.end() + offset
 
-        excludeMatchers.forEach {
-            while (it.find()) excludeIndexes.add(it.start() to it.end())
-        }
+        // Skip the replacement if the matched range is excluded.
+        // The character range offset is adjusted by 1 to avoid the exclusion of the matched range.
+        if (excludeState.contains(start, end)) continue
 
-        var offset = 0
+        // Perform the replacement.
+        val replacementText = matcher.buildReplacementText(replacement)
 
-        // Offset adjustment to account for changes in the text length after replacements.
-        while (matcher.find()) {
-            val start = matcher.start() + offset
-            val end = matcher.end() + offset
+        builder.replace(start, end, replacementText)
 
-            // Skip the replacement if the matched range is excluded.
-            // The character range offset is adjusted by 1 to avoid the exclusion of the matched range.
-            if (excludeIndexes.any { it.first <= start + 1 && it.second >= end - 1 }) continue
+        val delta = replacementText.length - (end - start)
+        excludeState.shiftAfter(end, delta)
 
-            // Perform the replacement.
-            val replacementText = matcher.buildReplacementText(replacement)
+        // Adjust offset based on the length of the replacement.
+        offset += delta
+    }
 
-            builder.replace(start, end, replacementText)
-
-            // Adjust offset based on the length of the replacement.
-            offset += replacementText.length - (end - start)
-        }
-
-        builder
-    }.onFailure {
-        Log.w(PangutextAndroidProperties.PROJECT_NAME, "Failed to replace span text content.", it)
-    }.getOrNull() ?: this
+    builder
+}.onFailure {
+    Log.w(PangutextAndroidProperties.PROJECT_NAME, "Failed to replace span text content.", it)
+}.getOrNull() ?: this
 
 /**
  * Build the replacement text based on the matched groups.

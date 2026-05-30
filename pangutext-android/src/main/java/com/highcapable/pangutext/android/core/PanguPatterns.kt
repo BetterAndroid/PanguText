@@ -24,6 +24,7 @@
 package com.highcapable.pangutext.android.core
 
 import com.highcapable.pangutext.android.PanguText
+import com.highcapable.pangutext.android.extension.ExcludedRanges
 import com.highcapable.pangutext.android.extension.replaceAndPreserveSpans
 
 /**
@@ -86,30 +87,31 @@ internal object PanguPatterns {
      * @return [CharSequence]
      */
     internal fun matchAndReplace(text: CharSequence, whiteSpace: Char, vararg excludePatterns: Regex) =
-        if (text.containsAnyCjkAndSpacingCandidate())
-            text.replaceAndPreserveSpans(DOTS_CJK, "$1$whiteSpace$2", *excludePatterns)
-                .replaceAndPreserveSpans(FIX_CJK_COLON_ANS, "$1:$whiteSpace$2", *excludePatterns)
-                .replaceAndPreserveSpans(CJK_QUOTE, "$1$whiteSpace$2", *excludePatterns)
-                .replaceAndPreserveSpans(QUOTE_CJK, "$1$whiteSpace$2", *excludePatterns)
-                .replaceAndPreserveSpans(FIX_QUOTE_ANY_QUOTE, "$1$2$3", *excludePatterns)
-                .replaceAndPreserveSpans(CJK_SINGLE_QUOTE_BUT_POSSESSIVE, "$1$whiteSpace$2", *excludePatterns)
-                .replaceAndPreserveSpans(SINGLE_QUOTE_CJK, "$1$whiteSpace$2", *excludePatterns)
-                .replaceAndPreserveSpans(HASH_ANS_CJK_HASH, "$1$whiteSpace$2$3$4$whiteSpace$5", *excludePatterns)
-                .replaceAndPreserveSpans(CJK_HASH, "$1$whiteSpace$2", *excludePatterns)
-                .replaceAndPreserveSpans(HASH_CJK, "$1$whiteSpace$3", *excludePatterns)
-                .replaceAndPreserveSpans(CJK_OPERATOR_ANS, "$1$whiteSpace$2$whiteSpace$3", *excludePatterns)
-                .replaceAndPreserveSpans(ANS_OPERATOR_CJK, "$1$whiteSpace$2$whiteSpace$3", *excludePatterns)
-                .replaceAndPreserveSpans(FIX_SLASH_AS, "$1$2", *excludePatterns)
-                .replaceAndPreserveSpans(FIX_SLASH_AS_SLASH, "$1$2$3", *excludePatterns)
-                .replaceAndPreserveSpans(CJK_LEFT_BRACKET, "$1$whiteSpace$2", *excludePatterns)
-                .replaceAndPreserveSpans(RIGHT_BRACKET_CJK, "$1$whiteSpace$2", *excludePatterns)
-                .replaceAndPreserveSpans(FIX_LEFT_BRACKET_ANY_RIGHT_BRACKET, "$1$2$3", *excludePatterns)
-                .replaceAndPreserveSpans(AN_LEFT_BRACKET, "$1$whiteSpace$2", *excludePatterns)
-                .replaceAndPreserveSpans(RIGHT_BRACKET_AN, "$1$whiteSpace$2", *excludePatterns)
-                .replaceAndPreserveSpans(CJK_ANS, "$1$whiteSpace$2", *excludePatterns)
-                .replaceAndPreserveSpans(ANS_CJK, "$1$whiteSpace$2", *excludePatterns)
-                .replaceAndPreserveSpans(S_A, "$1$whiteSpace$2", *excludePatterns)
-        else text
+        if (text.containsAnyCjkAndSpacingCandidate()) {
+            val excludeState = ExcludedRanges.from(text, excludePatterns)
+            text.replaceAndPreserveSpans(DOTS_CJK, "$1$whiteSpace$2", excludeState)
+                .replaceAndPreserveSpans(FIX_CJK_COLON_ANS, "$1:$whiteSpace$2", excludeState)
+                .replaceAndPreserveSpans(CJK_QUOTE, "$1$whiteSpace$2", excludeState)
+                .replaceAndPreserveSpans(QUOTE_CJK, "$1$whiteSpace$2", excludeState)
+                .replaceAndPreserveSpans(FIX_QUOTE_ANY_QUOTE, "$1$2$3", excludeState)
+                .replaceAndPreserveSpans(CJK_SINGLE_QUOTE_BUT_POSSESSIVE, "$1$whiteSpace$2", excludeState)
+                .replaceAndPreserveSpans(SINGLE_QUOTE_CJK, "$1$whiteSpace$2", excludeState)
+                .replaceAndPreserveSpans(HASH_ANS_CJK_HASH, "$1$whiteSpace$2$3$4$whiteSpace$5", excludeState)
+                .replaceAndPreserveSpans(CJK_HASH, "$1$whiteSpace$2", excludeState)
+                .replaceAndPreserveSpans(HASH_CJK, "$1$whiteSpace$3", excludeState)
+                .replaceAndPreserveSpans(CJK_OPERATOR_ANS, "$1$whiteSpace$2$whiteSpace$3", excludeState)
+                .replaceAndPreserveSpans(ANS_OPERATOR_CJK, "$1$whiteSpace$2$whiteSpace$3", excludeState)
+                .replaceAndPreserveSpans(FIX_SLASH_AS, "$1$2", excludeState)
+                .replaceAndPreserveSpans(FIX_SLASH_AS_SLASH, "$1$2$3", excludeState)
+                .replaceAndPreserveSpans(CJK_LEFT_BRACKET, "$1$whiteSpace$2", excludeState)
+                .replaceAndPreserveSpans(RIGHT_BRACKET_CJK, "$1$whiteSpace$2", excludeState)
+                .replaceAndPreserveSpans(FIX_LEFT_BRACKET_ANY_RIGHT_BRACKET, "$1$2$3", excludeState)
+                .replaceAndPreserveSpans(AN_LEFT_BRACKET, "$1$whiteSpace$2", excludeState)
+                .replaceAndPreserveSpans(RIGHT_BRACKET_AN, "$1$whiteSpace$2", excludeState)
+                .replaceAndPreserveSpans(CJK_ANS, "$1$whiteSpace$2", excludeState)
+                .replaceAndPreserveSpans(ANS_CJK, "$1$whiteSpace$2", excludeState)
+                .replaceAndPreserveSpans(S_A, "$1$whiteSpace$2", excludeState)
+        } else text
 
     private fun CharSequence.containsAnyCjkAndSpacingCandidate() =
         ANY_CJK.containsMatchIn(this) && ANY_HALF_WIDTH_SPACING_CANDIDATE.containsMatchIn(this)
