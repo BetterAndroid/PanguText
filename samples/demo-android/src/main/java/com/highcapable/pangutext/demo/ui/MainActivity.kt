@@ -40,6 +40,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             "我想，这样的环境真是适合集中精力工作。<br/>" +
             "总的来说，今天的体验很不错，下次还想再来尝试其他的<font color='#5C80BC'>drinks</font>和<font color='#9C528B'>desserts</font>。<br/>" +
             "<span style='background-color: #E9EDDE'>混<b>合wo</b>rd样式</span>测试。<br/>" +
+            "<u>下划线wo</u><s>rd删除线</s>测试。<br/>" +
             "You can<a href='https://github.com/BetterAndroid/PanguText'>点击这里访问项目地址</a>。",
         HtmlCompat.FROM_HTML_MODE_LEGACY
     )
