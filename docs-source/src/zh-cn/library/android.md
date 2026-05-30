@@ -249,7 +249,7 @@ textView.text = text
 
 ::: tip
 
-`PanguText.format` 方法有两个重载版本，分别对应两条格式化轨道：
+`PanguText.format` 方法有两个重载版本，分别对应两条格式化方案：
 
 - `PanguText.format(resources, textSize, text, ...)` 会直接扫描原始文本并修补 `PanguMarginSpan`，不会改动文本内容，也不会执行文本修正规则。
 - `PanguText.format(text, ...)` 会保留现有正则替换，包括文本修正规则，并返回插入了空白字符的文本结果。
