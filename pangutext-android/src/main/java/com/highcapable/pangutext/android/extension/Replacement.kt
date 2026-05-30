@@ -83,28 +83,30 @@ internal fun CharSequence.replaceAndPreserveSpans(regex: Regex, replacement: Str
  */
 private fun Matcher.buildReplacementText(replacement: String): String {
     val matcher = this
+    if ('$' !in replacement) return replacement
+
     var result = replacement
 
     // Check for group references (like $1, $2, ...).
-    val pattern = "\\$(\\d+)".toRegex()
-    result = pattern.replace(result) { matchResult ->
-        val groupIndex = matchResult.groupValues[1].toInt()
+    if ('$' in result)
+        result = numberGroupReferenceRegex.replace(result) { matchResult ->
+            val groupIndex = matchResult.groupValues[1].toInt()
 
-        if (groupIndex <= matcher.groupCount())
-            matcher.group(groupIndex) ?: ""
-        else ""
-    }
+            if (groupIndex <= matcher.groupCount())
+                matcher.group(groupIndex) ?: ""
+            else ""
+        }
 
     // Check for named groups (like ${groupName}).
-    val namedGroupPattern = "\\$\\{([a-zA-Z_][a-zA-Z0-9_]*)\\}".toRegex()
-    result = namedGroupPattern.replace(result) { matchResult ->
-        val groupName = matchResult.groupValues[1]
-        val groupIndex = matcher.getNamedGroupIndex(groupName)
+    if ($$"${" in result)
+        result = namedGroupReferenceRegex.replace(result) { matchResult ->
+            val groupName = matchResult.groupValues[1]
+            val groupIndex = matcher.getNamedGroupIndex(groupName)
 
-        if (groupIndex >= 0)
-            matcher.group(groupIndex) ?: ""
-        else ""
-    }
+            if (groupIndex >= 0)
+                matcher.group(groupIndex) ?: ""
+            else ""
+        }
 
     return result
 }
@@ -116,11 +118,17 @@ private fun Matcher.buildReplacementText(replacement: String): String {
  * @return [Int]
  */
 private fun Matcher.getNamedGroupIndex(groupName: String): Int {
-    val namedGroups = Matcher::class.resolve()
+    val namedGroups = matcherNamedGroupsResolver?.copy()?.of(this)?.getQuietly<Map<String, Int>>()
+    return namedGroups?.get(groupName) ?: -1
+}
+
+private val numberGroupReferenceRegex = "\\$(\\d+)".toRegex()
+private val namedGroupReferenceRegex = "\\$\\{([a-zA-Z_][a-zA-Z0-9_]*)\\}".toRegex()
+
+private val matcherNamedGroupsResolver by lazy {
+    Matcher::class.resolve()
         .optional(silent = true)
         .firstFieldOrNull {
             name = "namedGroups"
-        }?.of(this)?.getQuietly<Map<String, Int>>()
-
-    return namedGroups?.get(groupName) ?: -1
+        }
 }

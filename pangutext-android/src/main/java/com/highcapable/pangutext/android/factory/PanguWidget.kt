@@ -135,8 +135,8 @@ internal object PanguWidget {
                 configCopy.cjkSpacingRatio = cjkSpacingRatio ?: sConfig.cjkSpacingRatio
 
                 if (excludePatterns.isNotEmpty()) {
-                    sConfig.excludePatterns.clear()
-                    sConfig.excludePatterns.addAll(excludePatterns)
+                    configCopy.excludePatterns.clear()
+                    configCopy.excludePatterns.addAll(excludePatterns)
                 }
 
                 sConfig = configCopy
