@@ -26,15 +26,14 @@ package com.highcapable.pangutext.android
 import android.content.res.Resources
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.CharacterStyle
 import android.widget.TextView
 import androidx.annotation.Px
 import com.highcapable.kavaref.extension.classOf
-import com.highcapable.pangutext.android.PanguText.PH
 import com.highcapable.pangutext.android.core.PanguMarginSpan
 import com.highcapable.pangutext.android.core.PanguPatterns
+import com.highcapable.pangutext.android.core.PanguScanner
 import com.highcapable.pangutext.android.extension.injectPanguText
 import com.highcapable.pangutext.android.extension.injectRealTimePanguText
 import com.highcapable.pangutext.android.extension.setHintWithPangu
@@ -49,12 +48,6 @@ import com.highcapable.pangutext.android.extension.setTextWithPangu
 object PanguText {
 
     /**
-     * This is a placeholder character for replacing the content of the regular expression,
-     * with no actual meaning.
-     */
-    private const val PH = '\u001C'
-
-    /**
      * The global configuration of [PanguText].
      */
     val globalConfig = PanguTextConfig()
@@ -67,6 +60,7 @@ object PanguText {
      * any characters or changing the length of the original text.
      *
      * This function will insert a style for the current given [text] without actually changing the string position in the text.
+     * It only applies spacing spans and does not perform text-correction replacements such as trimming spaces inside paired punctuation.
      * If the current [text] is of type [Spannable], it will return the original unmodified object,
      * otherwise it will return the wrapped object [SpannableString] after.
      *
@@ -88,10 +82,8 @@ object PanguText {
     @JvmStatic
     fun format(resources: Resources, @Px textSize: Float, text: CharSequence, config: PanguTextConfig = globalConfig): CharSequence {
         if (!config.isEnabled) return text
-        if (text.isBlank()) return text
 
-        val formatted = format(text, PH, config)
-        return text.applySpans(formatted, resources, textSize, config)
+        return text.formatWithSpans(resources, textSize, config)
     }
 
     /**
@@ -99,6 +91,8 @@ object PanguText {
      *
      * Using this function will add extra [whiteSpace] as character spacing to the text,
      * changing the length of the original text.
+     * This is the string replacement solution. It keeps the regular-expression replacement chain
+     * and also performs text corrections when the content itself needs to be adjusted.
      *
      * - Note: Processed [Spanned] text is in experimental stage and may not be fully supported,
      *   if the text is not processed correctly, please disable [PanguTextConfig.isProcessedSpanned].
@@ -121,54 +115,29 @@ object PanguText {
     }
 
     /**
-     * Apply the [PanguMarginSpan] to the text.
+     * Apply the [PanguMarginSpan] directly to the text.
      * @receiver [CharSequence]
-     * @param formatted the formatted text.
      * @param resources the current resources.
      * @param textSize the text size (px).
      * @param config the configuration of [PanguText].
-     * @param whiteSpace the spacing character, default is [PH].
      * @return [CharSequence]
      */
-    private fun CharSequence.applySpans(
-        formatted: CharSequence,
+    private fun CharSequence.formatWithSpans(
         resources: Resources,
         @Px textSize: Float,
-        config: PanguTextConfig = globalConfig,
-        whiteSpace: Char = PH
+        config: PanguTextConfig = globalConfig
     ): CharSequence {
-        var builder: SpannableStringBuilder? = null
+        val processed = clearSpans()
+        if (!(config.isProcessedSpanned || this !is Spanned) || processed.isBlank() || processed.length <= 1) return processed
 
-        formatted.forEachIndexed { index, c ->
-            // Add spacing to the previous character.
-            if (c == whiteSpace && index > 0) {
-                val actualBuilder = builder ?: SpannableStringBuilder(formatted).also { builder = it }
-                val span = PanguMarginSpan.Placeholder()
-                actualBuilder.setSpan(span, index - 1, index, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-            }
-        }
+        val spannable = processed as? Spannable ?: SpannableString(processed)
+        val spacingIndexes = PanguScanner.findSpacingIndexes(processed, *config.excludePatterns.toTypedArray())
 
-        val actualBuilder = builder ?: return this as? Spannable ?: SpannableString(this)
-
-        // Delete the placeholder character.
-        ((actualBuilder.length - 1) downTo 0).forEach { i ->
-            if (actualBuilder[i] == whiteSpace) actualBuilder.delete(i, i + 1)
-        }
-
-        // Find the [PanguMarginSpan.Placeholder] subscript in [builder] and use [PanguMarginSpan] to set it to [original].
-        val builderSpans = actualBuilder.getSpans(0, actualBuilder.length, classOf<PanguMarginSpan.Placeholder>())
-        val spannable = this as? Spannable ?: SpannableString(this)
-
-        // Add new [PanguMarginSpan].
-        builderSpans.forEach {
-            val start = actualBuilder.getSpanStart(it)
-            val end = actualBuilder.getSpanEnd(it)
-
+        spacingIndexes.forEach { start ->
             val span = PanguMarginSpan.create(resources, textSize, config.cjkSpacingRatio)
-            spannable.setSpan(span, start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            spannable.setSpan(span, start, start + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         }
 
-        actualBuilder.clear()
         return spannable
     }
 

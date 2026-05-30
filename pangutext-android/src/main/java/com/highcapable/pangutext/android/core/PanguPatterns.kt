@@ -27,10 +27,12 @@ import com.highcapable.pangutext.android.PanguText
 import com.highcapable.pangutext.android.extension.replaceAndPreserveSpans
 
 /**
- * The regular expression patterns for [PanguText].
+ * The regular expression patterns for [PanguText] string formatting track.
  *
  * Some schemes are copied from [Pangu.java](https://github.com/vinta/pangu.java/blob/master/src/main/java/ws/vinta/pangu/Pangu.java),
  * and some modifications have been made to adapt to the Android environment.
+ *
+ * This object is only responsible for character rewriting and whitespace insertion.
  */
 internal object PanguPatterns {
 

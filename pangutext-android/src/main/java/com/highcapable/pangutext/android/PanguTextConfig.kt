@@ -70,6 +70,9 @@ class PanguTextConfig internal constructor() : Serializable {
      * The regular expression for text content that needs to be excluded.
      * [PanguText] processing will be skipped after matching these texts.
      *
+     * In the string replacement solution, the matched content will be excluded from regex replacement.
+     * In the spannable solution, the matched content will only be used as an exclusion mask for span scanning.
+     *
      * Usage:
      *
      * ```kotlin
