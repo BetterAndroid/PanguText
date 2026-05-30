@@ -24,7 +24,7 @@
 
 package com.highcapable.pangutext.android.extension
 
-import android.view.ViewTreeObserver
+import android.view.View
 import android.widget.TextView
 import androidx.core.view.doOnAttach
 import androidx.core.view.doOnDetach
@@ -88,28 +88,23 @@ fun TextView.injectRealTimePanguText(injectHint: Boolean = true, config: PanguTe
 
     injectPanguText(injectHint, config)
 
-    var currentHint = this.hint
     val textWatcher = PanguTextWatcher(base = this, config)
-    val listener = ViewTreeObserver.OnGlobalLayoutListener {
-        val self = this@injectRealTimePanguText
-        if (self.hint != currentHint)
-            self.setHintWithPangu(self.hint, config)
-
-        currentHint = self.hint
-    }
 
     setTag(observerKey, true)
     doOnAttach {
         addTextChangedListener(textWatcher)
+        var currentHint = hint
+        val hintLayoutListener = View.OnLayoutChangeListener { view, _, _, _, _, _, _, _, _ ->
+            val self = view as TextView
+            if (self.hint != currentHint) self.setHintWithPangu(self.hint, config)
+            currentHint = self.hint
+        }
 
-        // Add a global layout listener to monitor the hint text changes.
-        if (injectHint) viewTreeObserver?.addOnGlobalLayoutListener(listener)
+        if (injectHint) addOnLayoutChangeListener(hintLayoutListener)
 
         doOnDetach {
             removeTextChangedListener(textWatcher)
-
-            // Remove the global layout listener when the view is detached.
-            if (injectHint) viewTreeObserver?.removeOnGlobalLayoutListener(listener)
+            if (injectHint) removeOnLayoutChangeListener(hintLayoutListener)
             setTag(observerKey, false)
         }
     }
