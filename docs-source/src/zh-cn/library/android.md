@@ -48,17 +48,16 @@ implementation("com.highcapable.pangutext:pangutext-android:<version>")
 
 ### 实现原理
 
-`PanguText` 在 Android 平台有两种方案对文本进行格式化，一种为 `SpannableString` (不破坏原始文本长度)，另一种则是直接插入空白字符 (破坏原始文本长度)。
+`PanguText` 在 Android 平台提供了两种文本格式化实现方案：一种是基于 `SpannableString` 的无侵入样式方案，另一种是基于字符串替换的文本改写方案。
 
-第一种方案为 `SpannableString`，它会在需要增加间距的字符的前一个字符后增加应用了间距的 `Span` 来实现文本在样式上的改变，而不实际改变字符串的内容，最后交由 `TextView` 层完成渲染 (或手动使用 `TextPaint` 基于 `Spanned` 做布局样式处理)，实现无侵入式为文本设置样式。
+第一种方案为 `SpannableString`。它会直接扫描原始文本中的字符边界，识别哪些位置需要增加 CJK 间距，并在对应字符上修补 `PanguMarginSpan`，而不实际改动字符串内容或长度。最终渲染依然交由 `TextView` 层完成 (或手动使用 `TextPaint` 基于 `Spanned` 做布局样式处理)。
 
-第一种方案同样支持直接处理已经应用了样式的文本 (`Spanned`)，例如通过 `Html.fromHtml` 创建的文本，**但是目前尚处于实验性阶段，可能仍然会出现非预期样式错误问题**，
+这种方案同样支持直接处理已经应用了样式的文本 (`Spanned`)，例如通过 `Html.fromHtml` 创建的文本，**但它仍然处于实验性阶段，可能会出现非预期样式错误问题**，
 你可以参考下方的 [个性化配置](#个性化配置) 选择禁用它。
 
-动态应用 (注入) 功能主要针对 `EditText` 的输入状态，它会为 `EditText` 设置一个自定义的 `TextWatcher` 来监听输入状态，当输入状态发生变化时，从 `afterTextChanged` 中获取 `Editable` 并进行格式化。
+动态应用 (注入) 功能主要使用的就是 `SpannableString` 方案。它会为 `EditText` 设置一个自定义的 `TextWatcher` 来监听输入状态，当输入状态发生变化时，从 `afterTextChanged` 中获取 `Editable` 并进行格式化。
 
-第二种方案则是直接插入空白字符，它会直接在需要增加间距的字符后插入空白字符，这种方案会破坏原始文本的长度并且会改变文本内容自身，
-但是可以不依赖于 `TextView` 层完成渲染，直接使用 `TextPaint` 绘制文本即可，适用于所有场景，**但不支持动态应用 (注入)**。
+第二种方案则是直接插入空白字符的字符串替换方案。它会保留当前的正则替换链，并继续执行文本内容修正，直接在文本内容中插入空白字符。这种方案会破坏原始文本的长度并改变文本内容自身，但是可以不依赖于 `TextView` 层完成渲染，直接使用 `TextPaint` 绘制文本即可，适用于所有场景，**但不支持动态应用 (注入)**。
 
 ::: warning 尚未解决的问题
 
@@ -249,6 +248,11 @@ textView.text = text
 ```
 
 ::: tip
+
+`PanguText.format` 方法有两个重载版本，分别对应两条格式化轨道：
+
+- `PanguText.format(resources, textSize, text, ...)` 会直接扫描原始文本并修补 `PanguMarginSpan`，不会改动文本内容，也不会执行文本修正规则。
+- `PanguText.format(text, ...)` 会保留现有正则替换，包括文本修正规则，并返回插入了空白字符的文本结果。
 
 `injectPanguText`、`injectRealTimePanguText`、`setTextWithPangu`、`setHintWithPangu`、`PanguText.format` 方法支持 `config` 参数，你可以参考下方的 [个性化配置](#个性化配置)。
 

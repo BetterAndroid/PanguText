@@ -48,17 +48,16 @@ You can view the KDoc [click here](kdoc://pangutext-android).
 
 ### Implementation Principle
 
-`PanguText` provides two methods for text formatting on the Android platform: `SpannableString` (does not alter the original text length) and direct insertion of whitespace characters (alters the original text length).
+`PanguText` on Android provides two text-formatting implementations: a non-intrusive `SpannableString` styling solution and a string-rewrite solution based on direct text replacement.
 
-The first method, `SpannableString`, adds a `Span` with spacing to the character before the one that needs spacing, changing the text style without altering the string content. The rendering is done by the `TextView` layer (or manually using `TextPaint` based on `Spanned` for layout styling), achieving non-intrusive text styling.
+The first solution is `SpannableString`. It scans the original text for character boundaries that need CJK spacing, then applies `PanguMarginSpan` to the corresponding characters without changing the text content or length.
+Rendering is still handled by `TextView` (or manually through `TextPaint` with `Spanned`).
 
-This method also supports processing already styled text (`Spanned`), such as text created via `Html.fromHtml`.
+This solution also supports processing already styled text (`Spanned`), such as text created via `Html.fromHtml`. **However, it is still experimental and may have unexpected style errors**. You can refer to the [Personalized Configuration](#personalized-configuration) section below to disable it.
 
-**However, it is currently experimental and may still have unexpected style errors**. You can refer to the [Personalized Configuration](#personalized-configuration) section below to disable it.
+The dynamic application (injection) feature mainly uses `SpannableString` solution. It sets a custom `TextWatcher` for `EditText` to monitor input changes and formats the text from `afterTextChanged`.
 
-The dynamic application (injection) feature mainly targets the input state of `EditText`. It sets a custom `TextWatcher` for `EditText` to monitor input changes and formats the text from `afterTextChanged`.
-
-The second method directly inserts whitespace characters after the characters that need spacing. This method alters the original text length and content but does not rely on the `TextView` layer for rendering. It uses `TextPaint` to draw the text directly, suitable for all scenarios, **but does not support dynamic application (injection)**.
+The second solution directly inserts whitespace characters through the string replacement pipeline. It keeps the current regex chain and continues to apply text-content corrections, so it can rewrite the text content itself. This method alters the original text length and content, but it does not rely on the `TextView` layer for rendering. It can be drawn directly with `TextPaint`, making it suitable for all scenarios, **but it does not support dynamic application (injection)**.
 
 ::: warning Unresolved Issues
 
@@ -249,6 +248,11 @@ textView.text = text
 ```
 
 ::: tip
+
+`PanguText.format` has two overloaded versions, each corresponding to a different formatting path:
+
+- `PanguText.format(resources, textSize, text, ...)` directly scans the original text and applies `PanguMarginSpan` fixes, without changing the text content or running text correction rules.
+- `PanguText.format(text, ...)` keeps the existing regex-based replacements (including text correction rules) and returns text with inserted whitespace characters.
 
 The `injectPanguText`, `injectRealTimePanguText`, `setTextWithPangu`, `setHintWithPangu`, and `PanguText.format` methods support the `config` parameter.
 You can refer to the [Personalized Configuration](#personalized-configuration) section below.
