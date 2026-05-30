@@ -36,8 +36,11 @@ internal object PanguPatterns {
 
     private const val CJK = "\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30fa\u30fc-" +
         "\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff"
+    private const val HALF_WIDTH_SPACING_CANDIDATE = "A-Za-z\\u0370-\\u03ff0-9~@\$%\\^&\\*\\-\\+\\\\=\\|" +
+        "/!;:,\\.\\?\\u00a1-\\u00ff\\u2150-\\u218f\\u2700—\\u27bf#`\"'()\\[\\]{}<>\\u05f4\\u201c\\u201d_"
 
     private val ANY_CJK = "[$CJK]".toRegex()
+    private val ANY_HALF_WIDTH_SPACING_CANDIDATE = "[$HALF_WIDTH_SPACING_CANDIDATE]".toRegex()
 
     private val DOTS_CJK = "([\\.]{2,}|\\u2026)([$CJK])".toRegex()
 
@@ -81,7 +84,7 @@ internal object PanguPatterns {
      * @return [CharSequence]
      */
     internal fun matchAndReplace(text: CharSequence, whiteSpace: Char, vararg excludePatterns: Regex) =
-        if (ANY_CJK.containsMatchIn(text))
+        if (text.containsAnyCjkAndSpacingCandidate())
             text.replaceAndPreserveSpans(DOTS_CJK, "$1$whiteSpace$2", *excludePatterns)
                 .replaceAndPreserveSpans(FIX_CJK_COLON_ANS, "$1:$whiteSpace$2", *excludePatterns)
                 .replaceAndPreserveSpans(CJK_QUOTE, "$1$whiteSpace$2", *excludePatterns)
@@ -105,4 +108,7 @@ internal object PanguPatterns {
                 .replaceAndPreserveSpans(ANS_CJK, "$1$whiteSpace$2", *excludePatterns)
                 .replaceAndPreserveSpans(S_A, "$1$whiteSpace$2", *excludePatterns)
         else text
+
+    private fun CharSequence.containsAnyCjkAndSpacingCandidate() =
+        ANY_CJK.containsMatchIn(this) && ANY_HALF_WIDTH_SPACING_CANDIDATE.containsMatchIn(this)
 }

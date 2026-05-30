@@ -31,6 +31,7 @@ import androidx.core.view.doOnAttach
 import com.highcapable.betterandroid.ui.extension.component.base.getBooleanOrNull
 import com.highcapable.betterandroid.ui.extension.component.base.getFloatOrNull
 import com.highcapable.betterandroid.ui.extension.component.base.getStringOrNull
+import com.highcapable.betterandroid.ui.extension.view.getTag
 import com.highcapable.kavaref.KavaRef.Companion.resolve
 import com.highcapable.kavaref.extension.classOf
 import com.highcapable.kavaref.extension.isNotSubclassOf
@@ -161,16 +162,22 @@ internal object PanguWidget {
     private inline fun <reified V : View> V.doOnAttachRepeatable(config: PanguTextConfig, crossinline action: (view: V) -> Unit) {
         if (!config.isEnabled) return
 
+        val listenerKey = R.id.tag_pangu_text_attach_listener
+        getTag<View.OnAttachStateChangeListener>(listenerKey)?.also {
+            removeOnAttachStateChangeListener(it)
+        }
+
         if (isAttachedToWindow) action(this)
-        addOnAttachStateChangeListener(
-            object : View.OnAttachStateChangeListener {
-                override fun onViewAttachedToWindow(view: View) {
-                    // Re-execute it every time to prevent layout re-creation problems
-                    // similar to [RecyclerView.Adapter] or [BaseAdapter] after reuse.
-                    if (config.isEnabled) action(view as V)
-                }
-                override fun onViewDetachedFromWindow(view: View) {}
+        val listener = object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(view: View) {
+                // Re-execute it every time to prevent layout re-creation problems
+                // similar to [RecyclerView.Adapter] or [BaseAdapter] after reuse.
+                if (config.isEnabled) action(view as V)
             }
-        )
+            override fun onViewDetachedFromWindow(view: View) {}
+        }
+
+        setTag(listenerKey, listener)
+        addOnAttachStateChangeListener(listener)
     }
 }
