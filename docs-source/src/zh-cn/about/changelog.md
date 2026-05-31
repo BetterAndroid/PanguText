@@ -10,7 +10,15 @@
 
 ## pangutext-android
 
-### 1.0.5 | 2025.12.17 &ensp;<Badge type="tip" text="最新" vertical="middle" />
+### 1.0.6 | 2026.05.31 &ensp;<Badge type="tip" text="最新" vertical="middle" />
+
+- `PanguText.format(resources, textSize, ...)` 调整为直接扫描字符边界并修补 `PanguMarginSpan`，不再复用字符串替换流程，预计提速 10 倍，`PanguText.format(text, ...)` 继续保留正则替换与文本内容修正，两种实现方案的职责已完成分离
+- 修复 `excludePatterns` 在 `SpannableString` 方案中的处理方式，现在仅作为扫描排除遮罩使用，不再混入文本内容修正逻辑
+- 修复 `SpannableString` 方案在 `#话题#`、运算符、括号、引号等边界上的间距识别
+- `SpannableString` 方案不再作为实验性功能描述，`Spanned` 文本默认支持直接处理，也可通过 `isProcessedSpanned` 按需跳过
+- 修复 `SpannableString` 方案处理 `Spanned` 文本时的连续装饰绘制，下划线、删除线与背景色现在可以跟随 `PanguMarginSpan` 保持连续
+
+### 1.0.5 | 2025.12.17 &ensp;<Badge type="warning" text="过旧" vertical="middle" />
 
 - 适配 Kotlin 2.2+
 - 适配 `BetterAndroid` 新特性

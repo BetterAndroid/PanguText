@@ -18,7 +18,16 @@ Time zone of version release date: **UTC+8**
 
 ## pangutext-android
 
-### 1.0.5 | 2025.12.17 &ensp;<Badge type="tip" text="latest" vertical="middle" />
+### 1.0.6 | 2026.05.31 &ensp;<Badge type="tip" text="latest" vertical="middle" />
+
+- `PanguText.format(resources, textSize, ...)` is adjusted to directly scan character boundaries and apply `PanguMarginSpan`, no longer reusing the string replacement pipeline, expected to be 10 times faster.
+  `PanguText.format(text, ...)` continues to keep regex replacement and text-content corrections, and the responsibilities of the two implementations are now separated
+- Fixed the handling of `excludePatterns` in `SpannableString` solution, it is now only used as a scan exclusion mask and no longer mixed into text-content correction logic
+- Fixed spacing recognition in `SpannableString` solution for boundaries such as `#topic#`, operators, brackets, and quotes
+- `SpannableString` solution is no longer described as an experimental feature, `Spanned` text is supported for direct processing by default, and can still be skipped through `isProcessedSpanned` when needed
+- Fixed continuous decoration rendering when `SpannableString` solution processes `Spanned` text, underlines, strikethroughs, and background colors can now stay continuous with `PanguMarginSpan`
+
+### 1.0.5 | 2025.12.17 &ensp;<Badge type="warning" text="stale" vertical="middle" />
 
 - Adapted to Kotlin 2.2+
 - Adapted to new features of `BetterAndroid`
