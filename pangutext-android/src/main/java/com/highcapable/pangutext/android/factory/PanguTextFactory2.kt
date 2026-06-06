@@ -30,7 +30,7 @@ import android.view.LayoutInflater
 import android.view.View
 import com.highcapable.betterandroid.ui.extension.view.layoutInflater
 import com.highcapable.kavaref.KavaRef.Companion.asResolver
-import com.highcapable.pangutext.android.generated.PangutextAndroidProperties
+import com.highcapable.pangutext.android.generated.PanguTextProperties
 
 /**
  * Pangu text factory 2 for [LayoutInflater.Factory2].
@@ -105,7 +105,7 @@ class PanguTextFactory2 private constructor(private val base: LayoutInflater.Fac
         fun inject(inflater: LayoutInflater) {
             val original = inflater.factory2
             if (original is PanguTextFactory2) return run {
-                Log.w(PangutextAndroidProperties.PROJECT_NAME, "PanguTextFactory2 was already injected.")
+                Log.w(PanguTextProperties.PROJECT_NAME, "PanguTextFactory2 was already injected.")
             }
 
             val replacement = PanguTextFactory2(original)
@@ -113,7 +113,7 @@ class PanguTextFactory2 private constructor(private val base: LayoutInflater.Fac
                 inflater.asResolver().optional(silent = true).firstFieldOrNull {
                     name = "mFactory2"
                     superclass()
-                }?.setQuietly(replacement) ?: Log.e(PangutextAndroidProperties.PROJECT_NAME, "LayoutInflater.mFactory2 not found.")
+                }?.setQuietly(replacement) ?: Log.e(PanguTextProperties.PROJECT_NAME, "LayoutInflater.mFactory2 not found.")
             else inflater.factory2 = replacement
         }
     }

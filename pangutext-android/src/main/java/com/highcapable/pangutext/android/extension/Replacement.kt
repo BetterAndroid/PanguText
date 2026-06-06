@@ -26,7 +26,7 @@ package com.highcapable.pangutext.android.extension
 import android.text.SpannableStringBuilder
 import android.util.Log
 import com.highcapable.kavaref.KavaRef.Companion.resolve
-import com.highcapable.pangutext.android.generated.PangutextAndroidProperties
+import com.highcapable.pangutext.android.generated.PanguTextProperties
 import java.util.regex.Matcher
 
 /**
@@ -120,7 +120,7 @@ internal fun CharSequence.replaceAndPreserveSpans(regex: Regex, replacement: Str
 
     builder
 }.onFailure {
-    Log.w(PangutextAndroidProperties.PROJECT_NAME, "Failed to replace span text content.", it)
+    Log.w(PanguTextProperties.PROJECT_NAME, "Failed to replace span text content.", it)
 }.getOrNull() ?: this
 
 /**

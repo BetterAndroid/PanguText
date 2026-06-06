@@ -42,7 +42,7 @@ import com.highcapable.pangutext.android.R
 import com.highcapable.pangutext.android.core.PanguTextView
 import com.highcapable.pangutext.android.extension.injectPanguText
 import com.highcapable.pangutext.android.extension.injectRealTimePanguText
-import com.highcapable.pangutext.android.generated.PangutextAndroidProperties
+import com.highcapable.pangutext.android.generated.PanguTextProperties
 
 /**
  * A widgets processor that automatically applies [PanguText] to the text content.
@@ -77,11 +77,11 @@ internal object PanguWidget {
 
             // Catching when the attrs value initialization failed.
             runCatching { twoParams?.create(context, attrs) }.onFailure {
-                Log.w(PangutextAndroidProperties.PROJECT_NAME, "Failed to create instance of $viewClass using (Context, AttributeSet).", it)
+                Log.w(PanguTextProperties.PROJECT_NAME, "Failed to create instance of $viewClass using (Context, AttributeSet).", it)
             }.getOrNull()
                 // Try to initialize with the default constructor again, otherwise return null.
                 ?: runCatching { onceParam?.create(context) }.onFailure {
-                    Log.w(PangutextAndroidProperties.PROJECT_NAME, "Failed to create instance of $viewClass, this process will be ignored.", it)
+                    Log.w(PanguTextProperties.PROJECT_NAME, "Failed to create instance of $viewClass, this process will be ignored.", it)
                 }.getOrNull()
         }
 
@@ -121,7 +121,7 @@ internal object PanguWidget {
             val excludePatterns = getStringOrNull(R.styleable.PanguTextHelper_panguText_excludePatterns)
                 ?.split(TEXT_REGEX_SPLIT_SYMBOL)?.mapNotNull { regex ->
                     runCatching { regex.toRegex() }.onFailure { th ->
-                        Log.e(PangutextAndroidProperties.PROJECT_NAME, "Invalid exclude pattern of $instance: $regex", th)
+                        Log.e(PanguTextProperties.PROJECT_NAME, "Invalid exclude pattern of $instance: $regex", th)
                     }.getOrNull()
                 }?.toTypedArray() ?: emptyArray()
 

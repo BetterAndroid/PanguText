@@ -22,6 +22,19 @@ plugins {
 }
 
 gropify {
+    global {
+        android {
+            includeKeys("^project\\..*$".toRegex())
+            className = rootProject.name
+            isRestrictedAccessEnabled = true
+        }
+        jvm {
+            includeKeys("^project\\..*$".toRegex())
+            className = rootProject.name
+            isRestrictedAccessEnabled = true
+        }
+    }
+
     rootProject {
         common {
             isEnabled = false
@@ -31,12 +44,6 @@ gropify {
     projects(":samples:demo-android") {
         android {
             isEnabled = false
-        }
-    }
-
-    projects(":pangutext-android") {
-        android {
-            isRestrictedAccessEnabled = true
         }
     }
 }
