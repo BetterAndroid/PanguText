@@ -6,7 +6,7 @@
 <span style="margin-left: 5px"/>
 ![Android Min SDK](https://img.shields.io/badge/Min%20SDK-21-orange?logo=android&style=flat-square)
 
-这是 Android 平台的核心依赖，在 Android 平台上使用 `PanguText` 时，你需要引入此模块。
+这是 Android 平台的核心依赖，在 Android 平台上使用 PanguText 时，你需要引入此模块。
 
 ## 配置依赖
 
@@ -48,7 +48,7 @@ implementation("com.highcapable.pangutext:pangutext-android:<version>")
 
 ### 实现原理
 
-`PanguText` 在 Android 平台提供了两种文本格式化实现方案：一种是基于 `SpannableString` 的无侵入样式方案，另一种是基于字符串替换的文本改写方案。
+PanguText 在 Android 平台提供了两种文本格式化实现方案：一种是基于 `SpannableString` 的无侵入样式方案，另一种是基于字符串替换的文本改写方案。
 
 第一种方案为 `SpannableString`。它会直接扫描原始文本中的字符边界，识别哪些位置需要增加 CJK 间距，并在对应字符上修补 `PanguMarginSpan`，而不实际改动字符串内容或长度。最终渲染依然交由 `TextView` 层完成 (或手动使用 `TextPaint` 基于 `Spanned` 做布局样式处理)。
 
@@ -60,20 +60,20 @@ implementation("com.highcapable.pangutext:pangutext-android:<version>")
 
 ::: warning 尚未解决的问题
 
-`PanguText` 可能会与 Material 组件 `TextInputEditText`、`MaterialAutoCompleteTextView` 与 `TextInputLayout` 结合时在 `setHint` 效果上产生冲突，
+PanguText 可能会与 Material 组件 `TextInputEditText`、`MaterialAutoCompleteTextView` 与 `TextInputLayout` 结合时在 `setHint` 效果上产生冲突，
 因为 `TextView` 不会在测量时计算文本中的 `Span`，在单行文本中此类问题尤为明显，暂时还没有解决方案，请谨慎配合此类组件使用。
 
-受制于上述问题，通过 `View.measure` 方法计算包含了 `PanguText` 风格的 `TextView` 宽度时也可能会出现错误。
+受制于上述问题，通过 `View.measure` 方法计算包含了 PanguText 风格的 `TextView` 宽度时也可能会出现错误。
 
 :::
 
 ### 集成到现有项目
 
-将 `PanguText` 集成到你的当前项目中非常容易，你不需要改动过多代码，挑选以下你喜欢的方案进行，即可完成集成。
+将 PanguText 集成到你的当前项目中非常容易，你不需要改动过多代码，挑选以下你喜欢的方案进行，即可完成集成。
 
 #### 注入布局装载器 (LayoutInflater)
 
-`PanguText` 支持直接注入 `LayoutInflater.Factory2` 或为当前 `Activity` 创建 `LayoutInflater.Factory2` 实例以接管整个视图，
+PanguText 支持直接注入 `LayoutInflater.Factory2` 或为当前 `Activity` 创建 `LayoutInflater.Factory2` 实例以接管整个视图，
 这是推荐的集成方案，这种方式不需要修改任何现有布局即可实现无侵入式快速集成。
 
 > 示例如下
@@ -184,7 +184,7 @@ PanguTextPatcher.patch(textView)
 
 #### 手动注入或格式化文本
 
-`PanguText` 同样支持手动注入，你可以在需要的 `TextView` 或 `EditText` 上手动进行注入。
+PanguText 同样支持手动注入，你可以在需要的 `TextView` 或 `EditText` 上手动进行注入。
 
 > 示例如下
 
@@ -208,7 +208,7 @@ textView.injectRealTimePanguText(injectHint = false)
 editText.injectRealTimePanguText(injectHint = false)
 ```
 
-`PanguText` 还对 `TextView` 的 `setText` 方法进行了扩展，你可以使用如下方式直接设置带有 `PanugText` 样式的文本。
+PanguText 还对 `TextView` 的 `setText` 方法进行了扩展，你可以使用如下方式直接设置带有 `PanugText` 样式的文本。
 
 > 示例如下
 
@@ -256,7 +256,7 @@ textView.text = text
 
 #### 自定义 View
 
-`PanguText` 还可以配合自定义 `View` 进行使用，你可以将你的 `View` 继承到 `AppCompatTextView` 并重写 `setText` 方法。
+PanguText 还可以配合自定义 `View` 进行使用，你可以将你的 `View` 继承到 `AppCompatTextView` 并重写 `setText` 方法。
 
 > 示例如下
 
@@ -273,7 +273,7 @@ class MyTextView(context: Context, attrs: AttributeSet? = null) : AppCompatTextV
 
 ::: warning
 
-`TextView` 在注入 `PanguText` 后，如果你在 XML 布局中使用了 `android:singleLine="true"` 或在代码中使用了 `TextView.setSingleLine(true)` 并且配合 `android:elipsize="..."`，
+`TextView` 在注入 PanguText 后，如果你在 XML 布局中使用了 `android:singleLine="true"` 或在代码中使用了 `TextView.setSingleLine(true)` 并且配合 `android:elipsize="..."`，
 那么这种方式设置单行文本可能会造成文本超出屏幕后其中会中显示出无法解析的 `OBJ` 字符 (被省略号截断)，因为 `TextView` 不会在测量时计算文本中的 `Span`，这会导致文本宽度计算错误。
 解决方案为在 XML 布局中使用 `android:maxLines="1"` 或在代码中使用 `TextView.setMaxLines(1)` 来代替。
 
@@ -293,7 +293,7 @@ class MyTextView(context: Context, attrs: AttributeSet? = null) : AppCompatTextV
 
 ### 个性化配置
 
-`PanguText` 支持个性化配置，你可以使用全局静态实例 `PanguText.globalConfig` 获取全局配置，或单独进行配置。
+PanguText 支持个性化配置，你可以使用全局静态实例 `PanguText.globalConfig` 获取全局配置，或单独进行配置。
 
 > 示例如下
 

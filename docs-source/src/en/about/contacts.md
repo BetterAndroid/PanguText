@@ -10,6 +10,6 @@ Find me on **Twitter** [@fankesyooni](https://twitter.com/fankesyooni).
 
 ## Help with Maintenance
 
-Thank you for choosing and using `PanguText`.
+Thank you for choosing and using PanguText.
 
 If you have code-related suggestions and requests, you can submit a Pull Request on GitHub.

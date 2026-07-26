@@ -1,13 +1,17 @@
 ---
-home: true
+layout: home
 title: Home
-heroImage: /images/logo.png
-actions:
-  - text: Get Started
-    link: /en/guide/home
-    type: primary
-  - text: Changelog
-    link: /en/about/changelog
-    type: secondary
-footer: Apache-2.0 License | Copyright (C) 2019 HighCapable
+hero:
+  name: Pangu Text
+  tagline: A typographic solution for the optimal alignment of CJK characters, English words, and half-width digits
+  image:
+    src: /images/logo.png
+    alt: Pangu Text
+  actions:
+    - text: Get Started
+      link: /en/guide/home
+      theme: brand
+    - text: Changelog
+      link: /en/about/changelog
+      theme: alt
 ---

@@ -23,7 +23,7 @@ Heartfelt thanks to the original developer of **pangu.js** for providing the fou
 
 ## Effects
 
-As you can see, the typography scheme of `PanguText` does not work by simply inserting spaces between CJK characters and English words.
+As you can see, the typography scheme of PanguText does not work by simply inserting spaces between CJK characters and English words.
 Instead, it leverages each platform's native handling to automatically add whitespace between these characters, ensuring minimal intrusion.
 
 > Before Applying (Top) vs. After Applying (Bottom)
@@ -34,7 +34,7 @@ Instead, it leverages each platform's native handling to automatically add white
 
 <img src="/images/demo_02.gif" width="480" />
 
-`PanguText` supports dynamic application, which means it can add whitespace gaps to each character on-the-fly as you input text.
+PanguText supports dynamic application, which means it can add whitespace gaps to each character on-the-fly as you input text.
 
 ::: tip Developer's Perspective
 

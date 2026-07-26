@@ -6,7 +6,7 @@
 <span style="margin-left: 5px"/>
 ![Android Min SDK](https://img.shields.io/badge/Min%20SDK-21-orange?logo=android&style=flat-square)
 
-This is the core dependency for the Android platform. When using `PanguText` on Android, you need to include this module.
+This is the core dependency for the Android platform. When using PanguText on Android, you need to include this module.
 
 ## Configure Dependency
 
@@ -48,7 +48,7 @@ You can view the KDoc [click here](kdoc://pangutext-android).
 
 ### Implementation Principle
 
-`PanguText` on Android provides two text-formatting implementations: a non-intrusive `SpannableString` styling solution and a string-rewrite solution based on direct text replacement.
+PanguText on Android provides two text-formatting implementations: a non-intrusive `SpannableString` styling solution and a string-rewrite solution based on direct text replacement.
 
 The first solution is `SpannableString`. It scans the original text for character boundaries that need CJK spacing, then applies `PanguMarginSpan` to the corresponding characters without changing the text content or length.
 Rendering is still handled by `TextView` (or manually through `TextPaint` with `Spanned`).
@@ -61,19 +61,19 @@ The second solution directly inserts whitespace characters through the string re
 
 ::: warning Unresolved Issues
 
-`PanguText` may conflict with Material components like `TextInputEditText`, `MaterialAutoCompleteTextView`, and `TextInputLayout` when using `setHint`, as `TextView` does not account for `Span` during measurement. This issue is particularly noticeable in single-line text, and there is no solution yet. Use these components cautiously.
+PanguText may conflict with Material components like `TextInputEditText`, `MaterialAutoCompleteTextView`, and `TextInputLayout` when using `setHint`, as `TextView` does not account for `Span` during measurement. This issue is particularly noticeable in single-line text, and there is no solution yet. Use these components cautiously.
 
-Due to the above issue, calculating the width of a `TextView` with `PanguText` style using the `View.measure` method may also result in errors.
+Due to the above issue, calculating the width of a `TextView` with PanguText style using the `View.measure` method may also result in errors.
 
 :::
 
 ### Integrate into Existing Projects
 
-Integrating `PanguText` into your current project is very easy. You don't need to change much code. Choose your preferred method below to complete the integration.
+Integrating PanguText into your current project is very easy. You don't need to change much code. Choose your preferred method below to complete the integration.
 
 #### Inject to LayoutInflater
 
-`PanguText` supports direct injection of `LayoutInflater.Factory2` or creating a `LayoutInflater.Factory2` instance for the current `Activity` to take over the entire view layout inflation. This is the recommended integration method, as it allows for non-intrusive and quick integration without modifying any existing layouts.
+PanguText supports direct injection of `LayoutInflater.Factory2` or creating a `LayoutInflater.Factory2` instance for the current `Activity` to take over the entire view layout inflation. This is the recommended integration method, as it allows for non-intrusive and quick integration without modifying any existing layouts.
 
 > The following example
 
@@ -185,7 +185,7 @@ otherwise it will not take effect.
 
 #### Manual Injection or Text Formatting
 
-`PanguText` also supports manual injection, allowing you to inject it into the desired `TextView` or `EditText`.
+PanguText also supports manual injection, allowing you to inject it into the desired `TextView` or `EditText`.
 
 > The following example
 
@@ -209,7 +209,7 @@ textView.injectRealTimePanguText(injectHint = false)
 editText.injectRealTimePanguText(injectHint = false)
 ```
 
-`PanguText` also extends the `setText` method of `TextView`, allowing you to directly set text with `PanguText` style.
+PanguText also extends the `setText` method of `TextView`, allowing you to directly set text with PanguText style.
 
 > The following example
 
@@ -259,7 +259,7 @@ You can refer to the [Personalized Configuration](#personalized-configuration) s
 
 #### Custom View
 
-`PanguText` can also be used with custom `View`. You can extend your `View` to `AppCompatTextView` and override the `setText` method.
+PanguText can also be used with custom `View`. You can extend your `View` to `AppCompatTextView` and override the `setText` method.
 
 > The following example
 
@@ -276,7 +276,7 @@ class MyTextView(context: Context, attrs: AttributeSet? = null) : AppCompatTextV
 
 ::: warning
 
-After injecting `PanguText` into `TextView`, if you use `android:singleLine="true"` in XML layout or `TextView.setSingleLine(true)` in code along with `android:ellipsize="..."`,
+After injecting PanguText into `TextView`, if you use `android:singleLine="true"` in XML layout or `TextView.setSingleLine(true)` in code along with `android:ellipsize="..."`,
 this method of setting single-line text may cause unresolvable `OBJ` characters (truncated by ellipsis) to appear when the text exceeds the screen width, because `TextView` does not account for `Span` during measurement, leading to incorrect text width calculation.
 
 The solution is to use `android:maxLines="1"` in XML layout or `TextView.setMaxLines(1)` in code instead.
@@ -297,7 +297,7 @@ The solution is to use `android:maxLines="1"` in XML layout or `TextView.setMaxL
 
 ### Personalized Configuration
 
-`PanguText` supports personalized configuration. You can use the global static instance `PanguText.globalConfig` to get the global configuration or configure it individually.
+PanguText supports personalized configuration. You can use the global static instance `PanguText.globalConfig` to get the global configuration or configure it individually.
 
 > The following example
 

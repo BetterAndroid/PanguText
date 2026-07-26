@@ -10,8 +10,6 @@ We will only maintain the latest API version. If you are using an outdated API v
 
 ::: warning
 
-To avoid translation time consumption, the Changelog will use **Google Translation** from **Chinese** to **English**. Please refer to the original text for actual reference.
-
 Time zone of version release date: **UTC+8**
 
 :::
@@ -44,12 +42,12 @@ Time zone of version release date: **UTC+8**
 ### 1.0.2 | 2025.03.05 &ensp;<Badge type="warning" text="stale" vertical="middle" />
 
 - Added exception handling in `PanguTextFactory2` during injection to avoid interrupting the entire process during `View` initialization
-- Removed duplicate injection warning logs, now duplicate injections of `PanguText` will have no effect
-- Added `PanguTextPatcher`, which allows injecting `PanguText` using a new method
+- Removed duplicate injection warning logs, now duplicate injections of PanguText will have no effect
+- Added `PanguTextPatcher`, which allows injecting PanguText using a new method
 
 ### 1.0.1 | 2025.02.11 &ensp;<Badge type="warning" text="stale" vertical="middle" />
 
-- Fixed an issue where injecting `PanguText` could cause incorrect width measurement in `TextView`
+- Fixed an issue where injecting PanguText could cause incorrect width measurement in `TextView`
 - Added `isAutoRemeasureText` to `PanguTextConfig` to control whether to automatically remeasure text width (applies to single-line text in `TextView`)
 
 ### 1.0.0 | 2025.02.10 &ensp;<Badge type="warning" text="stale" vertical="middle" />
