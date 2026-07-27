@@ -1,0 +1,1 @@
+sourceset_dependencies='{":pangutext-android/release":[]}'
