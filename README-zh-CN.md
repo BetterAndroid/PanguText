@@ -73,7 +73,7 @@ CJK 排版规范，
 
 ## Star History
 
-![Star History Chart](https://api.star-history.com/svg?repos=BetterAndroid/PanguText&type=Date)
+[![Star History Chart](https://api.star-history.com/chart?repos=BetterAndroid/PanguText&type=date&legend=top-left&sealed_token=RON7FGvZKjIboV5PjbhaffxPttaCeJ0KeTbLue-a3k-osUeO1gWhFNwOWH9EszOsQMHVNSJwEhlOTTuf1OM6tsG7I84rwq0_nAc6XHfwbrFfxRzP8J7tKw)](https://www.star-history.com/?repos=BetterAndroid%2FPanguText&type=date&legend=top-left)
 
 ## 许可证
 
